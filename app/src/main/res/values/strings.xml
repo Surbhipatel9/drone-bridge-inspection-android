@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Drone-Bridge Application</string>
+    <string name="notification_success">Picture uploaded.</string>
+    <string name="notification_progress">Uploading...</string>
+    <string name="notification_share_link">Picture link</string>
+    <string name="notification_fail">Upload failed.</string>
+    <string name="input_title">Title</string>
+    <string name="input_description">Description</string>
+    <string name="btn_picture">Browse</string>
+    <string name="btn_upload">Upload</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="login_button">Login</string>
+    <string name="loginButtonHint">Username</string>
+    <string name="loginTitle">WV DoT Drone-Bridge Application</string>
+</resources>
