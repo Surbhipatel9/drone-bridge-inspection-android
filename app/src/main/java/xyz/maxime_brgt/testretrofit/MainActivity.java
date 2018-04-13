@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private EditText description;
     private EditText name;
+    private TextView uploadAsTextView;
 
     //database info
     String url = "droneinsp.database.windows.net";
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String ourImageURL;
 
-    private String userName = HomeActivity.enteredUserName;
+    private String uploadUserName = HomeActivity.enteredUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView)findViewById(R.id.imageView);
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.description);
+        uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
+
+        uploadAsTextView.setText("Uploading as... " + uploadUserName);
     }
 
     public void onChoose(View v) {
@@ -132,10 +137,11 @@ public class MainActivity extends AppCompatActivity {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, userName, password);
             Statement statement = con.createStatement();
-            statement.executeQuery("INSERT INTO photo (title, description, location) VALUES ("
+            statement.executeQuery("INSERT INTO photo (title, description, location, userID) VALUES ("
                     + photoTitle + ", "
                     + photoDescription + ", "
-                    + ourImageURL + ");"
+                    + photoUrl + ", "
+                    + uploadUserName + ");"
             );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -228,5 +234,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    public void backButton(View v){
+        Intent goToLoginIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(goToLoginIntent);
     }
 }
