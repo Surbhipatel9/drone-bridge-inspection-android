@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -28,9 +29,15 @@ public class HomeActivity extends AppCompatActivity {
     public void loginButton(View v){
         enteredUserName = usernameEditText.getText().toString();
 
+        if(enteredUserName == null || enteredUserName.equals("")){
+            Toast.makeText(getApplicationContext(), "Please enter a username",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent goToNavigateIntent = new Intent(getApplicationContext(), NavigateActivity.class);
+            startActivity(goToNavigateIntent);
+        }
 
-        Intent goToUploadIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(goToUploadIntent);
 
     }
 

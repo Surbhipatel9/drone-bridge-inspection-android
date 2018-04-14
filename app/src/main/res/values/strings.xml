@@ -15,4 +15,10 @@
     <string name="loginButtonHint">Username</string>
     <string name="loginTitle">WV DoT Drone-Bridge Application</string>
     <string name="backButton">Back</string>
+    <string name="title_activity_navigate">NavigateActivity</string>
+
+    <string name="toLoginButton">Back</string>
+    <string name="toUploadButton">Upload</string>
+    <string name="toViewOldButton">View Recent</string>
+    <string name="navigatePageTitle">Select an Action</string>
 </resources>
