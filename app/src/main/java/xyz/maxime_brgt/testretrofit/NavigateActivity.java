@@ -38,12 +38,12 @@ public class NavigateActivity extends AppCompatActivity {
 
     }
 
-    /*
+
     public void setToViewOldButton(View v){
-        Intent goTo = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(goToLoginIntent);
+        Intent goTo = new Intent(getApplicationContext(), ViewRecentActivity.class);
+        startActivity(goTo);
 
     }
-    */
+
 
 }

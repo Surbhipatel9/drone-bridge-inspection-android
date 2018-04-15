@@ -21,4 +21,6 @@
     <string name="toUploadButton">Upload</string>
     <string name="toViewOldButton">View Recent</string>
     <string name="navigatePageTitle">Select an Action</string>
+    <string name="title_activity_view_recent">ViewRecentActivity</string>
+    <string name="recentLabel">Your Recently Uploaded</string>
 </resources>
