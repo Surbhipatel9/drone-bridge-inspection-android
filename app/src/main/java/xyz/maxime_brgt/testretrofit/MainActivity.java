@@ -54,9 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String ourImageURL;
 
+    ConnectionClass connectionClass;
     private String uploadUserName = HomeActivity.enteredUserName;
 
-    String url, userName, password, database;
+    //String url, userName, password, database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
 
+        connectionClass = new ConnectionClass();
+
         uploadAsTextView.setText("Uploading as... " + uploadUserName);
 
-         url = "droneinsp.database.windows.net";
-         userName = "aksenov";
-         password = "Datapass123";
-         database = "DroneInspDB";
+         //url = "droneinsp.database.windows.net";
+         //userName = "aksenov";
+         //password = "Datapass123";
+         //database = "DroneInspDB";
     }
 
     public void onChoose(View v) {
@@ -124,6 +127,26 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
                     notificationHelper.createUploadedNotification(response.body());
                     ourImageURL = "http://imgur.com/" + response.body().data.id;
+                    try{
+                        Connection con = connectionClass.Conn();
+                        String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
+                                + 100 + ", "
+                                + 2 + ", "
+                                + "awesome" + ", "
+                                + "yeppp" + ", "
+                                + "google.com" + ", "
+                                + 1
+                                +  ");";
+                        Statement stmt = con.createStatement();
+                        stmt.execute(query);
+                        con.close();
+
+
+                    }catch(SQLException e){
+                        Log.d("sql", e.toString());
+                    }catch(IllegalStateException e){
+                        Log.d("sql", e.toString());
+                    }
                 }
             }
 
@@ -140,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
         String photoDescription = description.getText().toString();
         String photoUrl = ourImageURL;
 
+
+
+        /*
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://" + url, userName, password);
@@ -158,7 +184,11 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch(IllegalStateException e){
+
+
         }
+        /*
 
         /*
         try {
