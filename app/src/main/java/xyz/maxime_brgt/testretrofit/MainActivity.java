@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -49,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView uploadAsTextView;
 
     //database info
-    String url = "droneinsp.database.windows.net";
-    String userName = "aksenov";
-    String password = "Datapass123";
+
 
     private String ourImageURL;
 
     private String uploadUserName = HomeActivity.enteredUserName;
+
+    String url, userName, password, database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
 
         uploadAsTextView.setText("Uploading as... " + uploadUserName);
+
+         url = "droneinsp.database.windows.net";
+         userName = "aksenov";
+         password = "Datapass123";
+         database = "DroneInspDB";
     }
 
     public void onChoose(View v) {
@@ -133,22 +139,53 @@ public class MainActivity extends AppCompatActivity {
         String photoTitle = name.getText().toString();
         String photoDescription = description.getText().toString();
         String photoUrl = ourImageURL;
+
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, userName, password);
+            Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://" + url, userName, password);
             Statement statement = con.createStatement();
-            statement.executeQuery("INSERT INTO photo (title, description, location, userID) VALUES ("
+            statement.executeQuery("INSERT INTO photo (photoID, userID, title, description, location) VALUES ("
+                    + 100 + ", "
+                    + 2 + ", "
                     + photoTitle + ", "
                     + photoDescription + ", "
                     + photoUrl + ", "
-                    + uploadUserName + ");"
+                    +  ");"
+
             );
+            con.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        /*
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            String connectionURL = "jdbc:jtds:sqlserver://" + url +";databaseName="+ database + ";user=" + userName + ";password=" + password + ";";
+            Connection con = DriverManager.getConnection(connectionURL);
+            String query = "insert into photo (photoID, userID, date, title, description, location, selected)"
+                    + " values (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, 100);
+            preparedStatement.setInt(2, 2);
+            preparedStatement.setString(3, "4/16/2018");
+            preparedStatement.setString(4, "best bridge ever");
+            preparedStatement.setString(5, "yep, so good");
+            preparedStatement.setString(6, ourImageURL);
+            preparedStatement.setInt(7, 1);
+
+            preparedStatement.execute();
+            con.close();
+
+        }catch(SQLException e){
+            Log.d("sql", e.toString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+*/
         imageView.setImageResource(android.R.color.transparent);
         name.setText("");
         description.setText("");
