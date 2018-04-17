@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String ourImageURL;
 
-    ConnectionClass connectionClass;
+    ConnectionClass connectionClass = new ConnectionClass();
     private String uploadUserName = HomeActivity.enteredUserName;
 
     //String url, userName, password, database;
@@ -84,6 +84,46 @@ public class MainActivity extends AppCompatActivity {
     intent.setType("image/*");
     intent.setAction(Intent.ACTION_GET_CONTENT);
     startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+    }
+
+    public void onUploadTest(View v){
+        /*
+        try{
+            Connection con = connectionClass.Conn();
+            String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
+                    + 100 + ", "
+                    + 2 + ", "
+                    + "4/17/2018" + ", "
+                    + "awesome" + ", "
+                    + "yeppp" + ", "
+                    + "google.com" + ", "
+                    + 1
+                    +  ");";
+            Statement stmt = con.createStatement();
+            stmt.execute(query);
+            con.close();
+
+
+        }catch(SQLException e){
+            Log.d("sql", e.toString());
+        }catch(IllegalStateException e){
+            Log.d("sql", e.toString());
+        }  */
+        try{
+            Connection con = connectionClass.Conn();
+            String query = "INSERT INTO photo (photoID) VALUES ("
+                    + 100 +  ");";
+            Statement stmt = con.createStatement();
+            stmt.execute(query);
+            con.close();
+
+
+        }catch(SQLException e){
+            Log.d("sql", e.toString());
+        }catch(IllegalStateException e){
+            Log.d("sql", e.toString());
+        }
 
     }
 
@@ -127,26 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
                     notificationHelper.createUploadedNotification(response.body());
                     ourImageURL = "http://imgur.com/" + response.body().data.id;
-                    try{
-                        Connection con = connectionClass.Conn();
-                        String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
-                                + 100 + ", "
-                                + 2 + ", "
-                                + "awesome" + ", "
-                                + "yeppp" + ", "
-                                + "google.com" + ", "
-                                + 1
-                                +  ");";
-                        Statement stmt = con.createStatement();
-                        stmt.execute(query);
-                        con.close();
 
-
-                    }catch(SQLException e){
-                        Log.d("sql", e.toString());
-                    }catch(IllegalStateException e){
-                        Log.d("sql", e.toString());
-                    }
                 }
             }
 
@@ -162,7 +183,28 @@ public class MainActivity extends AppCompatActivity {
         String photoTitle = name.getText().toString();
         String photoDescription = description.getText().toString();
         String photoUrl = ourImageURL;
+/*
+        try{
+            Connection con = connectionClass.Conn();
+            String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
+                    + 100 + ", "
+                    + 2 + ", "
+                    + "awesome" + ", "
+                    + "yeppp" + ", "
+                    + "google.com" + ", "
+                    + 1
+                    +  ");";
+            Statement stmt = con.createStatement();
+            stmt.execute(query);
+            con.close();
 
+
+        }catch(SQLException e){
+            Log.d("sql", e.toString());
+        }catch(IllegalStateException e){
+            Log.d("sql", e.toString());
+        }
+*/
 
 
         /*

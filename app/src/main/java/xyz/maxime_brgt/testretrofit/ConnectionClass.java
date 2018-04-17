@@ -29,15 +29,16 @@ public class ConnectionClass {
 
         try{
             Class.forName("net.sourceforge.jtds.jdbs.Driver");
-            String ConnURL = "jdbc:jtds:sqlserver://" + ip + "/" + db + ";user=" + un +
+            String ConnURL = "jdbc:jtds:sqlserver://" + db + ";user=" + un +
                     ";password=" + password + ";";
             conn = DriverManager.getConnection(ConnURL);
         }catch(SQLException se){
             Log.d("sql ", se.toString());}
         catch(ClassNotFoundException e){
-        Log.e("sql ", e.toString());}
-        catch(Exception e){
-            Log.e("sql ", e.toString());
+        Log.d("sql ", e.toString());} catch(NullPointerException e){
+            Log.d("sql", e.toString());
+        } catch(Exception e){
+            Log.d("sql ", e.toString());
         }
 
         return conn;
