@@ -109,18 +109,35 @@ public class MainActivity extends AppCompatActivity {
             Log.d("sql", e.toString());
         }catch(IllegalStateException e){
             Log.d("sql", e.toString());
-        }  */
-        try{
-            Connection con = connectionClass.Conn();
-            String query = "INSERT INTO photo (photoID) VALUES ("
-                    + 100 +  ");";
-            Statement stmt = con.createStatement();
-            stmt.execute(query);
-            con.close();
+        }
 
+        */
+        String database = "DroneTest";
+        String userName = "natemiklas1";
+        String password = "ravens67";
+        String url = "NATE-HP\\SQLEXPRESS";
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://192.188.4.83:1433/DroneTest;user=" + userName + ";password=" + password);
+            String query = "insert into testTable (test, number)"
+                    + " values (?, ?)";
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, "dsadsd");
+            preparedStatement.setInt(2, 2);
+
+
+            preparedStatement.execute();
+            con.close();
 
         }catch(SQLException e){
             Log.d("sql", e.toString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }catch(InstantiationException e){
+            e.printStackTrace();
         }catch(IllegalStateException e){
             Log.d("sql", e.toString());
         }
@@ -205,32 +222,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("sql", e.toString());
         }
 */
-
-
-        /*
-        try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://" + url, userName, password);
-            Statement statement = con.createStatement();
-            statement.executeQuery("INSERT INTO photo (photoID, userID, title, description, location) VALUES ("
-                    + 100 + ", "
-                    + 2 + ", "
-                    + photoTitle + ", "
-                    + photoDescription + ", "
-                    + photoUrl + ", "
-                    +  ");"
-
-            );
-            con.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch(IllegalStateException e){
-
-
-        }
-        /*
 
         /*
         try {

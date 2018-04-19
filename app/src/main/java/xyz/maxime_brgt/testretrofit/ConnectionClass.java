@@ -14,10 +14,16 @@ import java.sql.SQLException;
 
 public class ConnectionClass {
 
-    String ip = "206.212.36.194";
+    String ip = "73.251.9.178";
+    /*
     String db = "DroneInspDB";
     String un = "aksenov";
     String password = "Datapass123";
+    */
+
+    String db = "DroneTest";
+    String un = "natemiklas1";
+    String password = "ravens67";
 
     //String ConnURL = null;
     @SuppressLint("NewApi")
