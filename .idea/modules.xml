@@ -6,7 +6,7 @@
       <module fileurl="file://C:\Users\Nate\AndroidStudioProjects\imgur-upload-retrofit-2-master\imgur-upload.iml" filepath="C:\Users\Nate\AndroidStudioProjects\imgur-upload-retrofit-2-master\imgur-upload.iml" />
       <module fileurl="file://$PROJECT_DIR$/imgur-upload-retrofit-2-master.iml" filepath="$PROJECT_DIR$/imgur-upload-retrofit-2-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtds-1.2.7/jtds-1.2.7.iml" filepath="$PROJECT_DIR$/jtds-1.2.7/jtds-1.2.7.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jtds-1.3.1/jtds-1.3.1.iml" filepath="$PROJECT_DIR$/jtds-1.3.1/jtds-1.3.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mssql-jdbc-6.4.0.jre9/mssql-jdbc-6.4.0.jre9.iml" filepath="$PROJECT_DIR$/mssql-jdbc-6.4.0.jre9/mssql-jdbc-6.4.0.jre9.iml" />
     </modules>
   </component>
 </project>

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -88,9 +89,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUploadTest(View v){
-        /*
+/*
+        String user = "aksenov";
+        String password = "Datapass123";
+        String database = "DroneInspDB";
+        String url = "jdbc:sqlserver://server:8088;DatabaseName=DroneInspDB";
+        String ConnURL = "jdbc:jtds:sqlserver://" + "73.251.9.178" +":"+"1088"+";"
+                + "databaseName=" + ";user=" + user + ";password="
+                + password + ";";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         try{
-            Connection con = connectionClass.Conn();
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            Connection con = DriverManager.getConnection(url, user, password);
+            //Connection con = DriverManager.getConnection(ConnURL);
             String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
                     + 100 + ", "
                     + 2 + ", "
@@ -102,45 +115,48 @@ public class MainActivity extends AppCompatActivity {
                     +  ");";
             Statement stmt = con.createStatement();
             stmt.execute(query);
+            stmt.close();
             con.close();
-
-
         }catch(SQLException e){
             Log.d("sql", e.toString());
         }catch(IllegalStateException e){
             Log.d("sql", e.toString());
+        }catch(ClassNotFoundException e){
+            Log.d("sql", e.toString());
         }
-
         */
-        String database = "DroneTest";
-        String userName = "natemiklas1";
+
+        String user = "natemiklas1";
         String password = "ravens67";
-        String url = "NATE-HP\\SQLEXPRESS";
-        try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://192.188.4.83:1433/DroneTest;user=" + userName + ";password=" + password);
-            String query = "insert into testTable (test, number)"
-                    + " values (?, ?)";
+        String database = "DroneTest";
+        String url = "jdbc:sqlserver://server:8088;DatabaseName=DroneInspDB";
+        String ConnURL = "jdbc:sqlserver://localhost:1433;" +
+                "databaseName=DroneTest;user=natemiklas1;password=ravens67";
 
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, "dsadsd");
-            preparedStatement.setInt(2, 2);
-
-
-            preparedStatement.execute();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        try{
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            Connection con = DriverManager.getConnection(url, user, password);
+            //Connection con = DriverManager.getConnection(ConnURL);
+            String query = "INSERT INTO photo (test, number) VALUES ("
+                    + "sdasd" + ", "
+                    + 2
+                    +  ");";
+            Statement stmt = con.createStatement();
+            stmt.execute(query);
+            stmt.close();
             con.close();
-
         }catch(SQLException e){
             Log.d("sql", e.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }catch (IllegalAccessException e){
-            e.printStackTrace();
-        }catch(InstantiationException e){
-            e.printStackTrace();
         }catch(IllegalStateException e){
             Log.d("sql", e.toString());
+        }catch(ClassNotFoundException e){
+            Log.d("sql", e.toString());
         }
+
+
+
 
     }
 

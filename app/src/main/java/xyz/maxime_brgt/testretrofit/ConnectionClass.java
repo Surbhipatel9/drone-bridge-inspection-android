@@ -14,36 +14,33 @@ import java.sql.SQLException;
 
 public class ConnectionClass {
 
-    String ip = "73.251.9.178";
-    /*
+    //String ip = "73.251.9.178";
+
     String db = "DroneInspDB";
     String un = "aksenov";
     String password = "Datapass123";
-    */
-
-    String db = "DroneTest";
-    String un = "natemiklas1";
-    String password = "ravens67";
 
     //String ConnURL = null;
     @SuppressLint("NewApi")
-    public Connection Conn(){
+    public Connection Conn() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Connection conn = null;
-        //String ConnURL =  null;
+        //String ConnURL = null;
 
-        try{
+        String ConnURL = "jdbc:jtds:sqlserver://" + db + ";user=" + un +
+                ";password=" + password + ";";
+
+        try {
             Class.forName("net.sourceforge.jtds.jdbs.Driver");
-            String ConnURL = "jdbc:jtds:sqlserver://" + db + ";user=" + un +
-                    ";password=" + password + ";";
             conn = DriverManager.getConnection(ConnURL);
-        }catch(SQLException se){
-            Log.d("sql ", se.toString());}
-        catch(ClassNotFoundException e){
-        Log.d("sql ", e.toString());} catch(NullPointerException e){
+        } catch (SQLException se) {
+            Log.d("sql ", se.toString());
+        } catch (ClassNotFoundException e) {
+            Log.d("sql ", e.toString());
+        } catch (NullPointerException e) {
             Log.d("sql", e.toString());
-        } catch(Exception e){
+        } catch (Exception e) {
             Log.d("sql ", e.toString());
         }
 
