@@ -1,12 +1,14 @@
 package xyz.maxime_brgt.testretrofit;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -14,13 +16,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -30,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -50,12 +59,18 @@ public class MainActivity extends AppCompatActivity {
     private EditText name;
     private TextView uploadAsTextView;
 
+    private Button uploadButton;
+
+    public String fileName = "helloWorld";
+    public String body = "hey its me";
+    public final static String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/instinctcoder/readwrite/" ;
     //database info
+    public String  data = "yepppp";
 
 
     private String ourImageURL;
 
-    ConnectionClass connectionClass = new ConnectionClass();
+    //ConnectionClass connectionClass = new ConnectionClass();
     private String uploadUserName = HomeActivity.enteredUserName;
 
     //String url, userName, password, database;
@@ -69,15 +84,50 @@ public class MainActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
 
-        connectionClass = new ConnectionClass();
+        uploadButton = (Button) findViewById(R.id.uploadButton);
+
+        //connectionClass = new ConnectionClass();
 
         uploadAsTextView.setText("Uploading as... " + uploadUserName);
 
-         //url = "droneinsp.database.windows.net";
-         //userName = "aksenov";
-         //password = "Datapass123";
-         //database = "DroneInspDB";
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isWriteable()){
+                    write();
+                }
+            }
+        });
     }
+
+    private void write() {
+        File sdCard = Environment.getExternalStorageDirectory();
+        File f = new File(sdCard, fileName);
+
+        try{
+            FileOutputStream fos = new FileOutputStream(f);
+            String data = "yepppppppppp";
+
+            fos.write(data.getBytes());
+            fos.close();
+        }catch(FileNotFoundException e){
+            Log.d("ok", e.toString());
+        }catch(IOException e){
+            Log.d("ok", e.toString());
+        }
+    }
+
+    private boolean isWriteable(){
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+
 
     public void onChoose(View v) {
 
@@ -88,26 +138,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     public void onUploadTest(View v){
-/*
+
         String user = "aksenov";
         String password = "Datapass123";
-        String database = "DroneInspDB";
-        String url = "jdbc:sqlserver://server:8088;DatabaseName=DroneInspDB";
-        String ConnURL = "jdbc:jtds:sqlserver://" + "73.251.9.178" +":"+"1088"+";"
-                + "databaseName=" + ";user=" + user + ";password="
-                + password + ";";
+        String url = "jdbc:jtds:sqlserver://droneinsp.database.windows.net";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        /*
         try{
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, password);
-            //Connection con = DriverManager.getConnection(ConnURL);
             String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
                     + 100 + ", "
                     + 2 + ", "
-                    + "4/17/2018" + ", "
+                    + "04/24/2018" + ", "
                     + "awesome" + ", "
                     + "yeppp" + ", "
                     + "google.com" + ", "
@@ -117,48 +164,43 @@ public class MainActivity extends AppCompatActivity {
             stmt.execute(query);
             stmt.close();
             con.close();
+
         }catch(SQLException e){
             Log.d("sql", e.toString());
         }catch(IllegalStateException e){
             Log.d("sql", e.toString());
         }catch(ClassNotFoundException e){
             Log.d("sql", e.toString());
-        }
-        */
+        }*/
 
-        String user = "natemiklas1";
-        String password = "ravens67";
-        String database = "DroneTest";
-        String url = "jdbc:sqlserver://server:8088;DatabaseName=DroneInspDB";
-        String ConnURL = "jdbc:sqlserver://localhost:1433;" +
-                "databaseName=DroneTest;user=natemiklas1;password=ravens67";
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        try{
+        try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, password);
-            //Connection con = DriverManager.getConnection(ConnURL);
-            String query = "INSERT INTO photo (test, number) VALUES ("
-                    + "sdasd" + ", "
-                    + 2
-                    +  ");";
-            Statement stmt = con.createStatement();
-            stmt.execute(query);
-            stmt.close();
+            String query = "INSERT INTO DroneInspDB.dbo.photos (photoID, userID, date, title, description, location, selected)"
+                    + " values (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, 100);
+            preparedStatement.setInt(2, 2);
+            preparedStatement.setString(3, "4/16/2018");
+            preparedStatement.setString(4, "best bridge ever");
+            preparedStatement.setString(5, "yep, so good");
+            preparedStatement.setString(6, ourImageURL);
+            preparedStatement.setInt(7, 1);
+
+            preparedStatement.execute();
+            preparedStatement.close();
             con.close();
+
         }catch(SQLException e){
             Log.d("sql", e.toString());
-        }catch(IllegalStateException e){
-            Log.d("sql", e.toString());
-        }catch(ClassNotFoundException e){
-            Log.d("sql", e.toString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-
-
-
-
     }
+
+
 
     public void onUpload(View v) {
 

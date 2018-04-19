@@ -66,7 +66,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/uploadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -74,7 +74,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimaryDark"
-        android:onClick="onUploadTest"
         android:text="@string/btn_upload"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
