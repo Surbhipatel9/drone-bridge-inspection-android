@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,9 +37,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 import okhttp3.MediaType;
@@ -59,16 +63,21 @@ public class MainActivity extends AppCompatActivity {
     private EditText name;
     private TextView uploadAsTextView;
 
+    private ArrayList<String> fileArray = new ArrayList<String>();
+
     private Button uploadButton;
 
     public String fileName = "helloWorld";
     public String body = "hey its me";
     public final static String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/instinctcoder/readwrite/" ;
     //database info
-    public String  data = "yepppp";
+    public String  toWrite = "its me adam";
+    public String filename = "test";
+
+    public String[] yep = new String[1];
 
 
-    private String ourImageURL;
+    public static String ourImageURL = "";
 
     //ConnectionClass connectionClass = new ConnectionClass();
     private String uploadUserName = HomeActivity.enteredUserName;
@@ -88,46 +97,102 @@ public class MainActivity extends AppCompatActivity {
 
         //connectionClass = new ConnectionClass();
 
+        File sdCard = Environment.getExternalStorageDirectory();
+        Log.d("location", sdCard.getAbsolutePath());
+        //File dir = new File("/storage/self/primary");
+        Log.e("help", String.valueOf(sdCard.exists()));
+//        if (!dir.exists()){
+//            if(!dir.mkdir()){
+//                Log.e("ALERT","could not create directories");
+//            }
+//        }
+        //dir.mkdirs();
+        File f = new File(sdCard + "/test.txt");
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(f, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedWriter fos = new BufferedWriter(fw);
+        String descriptionInsert = description.getText().toString();
+        String nameInsert = name.getText().toString();
+        try{
+            //fw = new FileWriter(f);
+            //BufferedWriter fos = new BufferedWriter(fw);
+            fos.write("");
+//           fos.flush();
+            Log.d("done", "done");
+            fos.close();
+            fw.close();
+        } catch(FileNotFoundException e){
+            Log.d("ok", e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         uploadAsTextView.setText("Uploading as... " + uploadUserName);
 
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isWriteable()){
-                    write();
-                }
-            }
-        });
     }
 
-    private void write() {
-        File sdCard = Environment.getExternalStorageDirectory();
-        File f = new File(sdCard, fileName);
-
-        try{
-            FileOutputStream fos = new FileOutputStream(f);
-            String data = "yepppppppppp";
-
-            fos.write(data.getBytes());
-            fos.close();
-        }catch(FileNotFoundException e){
-            Log.d("ok", e.toString());
-        }catch(IOException e){
-            Log.d("ok", e.toString());
-        }
-    }
-
-    private boolean isWriteable(){
-        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+    public static boolean canWriteOnExternalStorage() {
+        // get the state of your external storage
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            // if storage is mounted return true
+            //Log.v(“sTag”, “Yes, can write to external storage.”);
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
 
-
-
+    public void fileUpload(View v) throws IOException {
+        File sdCard = Environment.getExternalStorageDirectory();
+        Log.d("location", sdCard.getAbsolutePath());
+        //File dir = new File("/storage/self/primary");
+        Log.e("help", String.valueOf(sdCard.exists()));
+//        if (!dir.exists()){
+//            if(!dir.mkdir()){
+//                Log.e("ALERT","could not create directories");
+//            }
+//        }
+        //dir.mkdirs();
+        File f = new File(sdCard + "/test.txt");
+        if(!f.exists()){
+            f.createNewFile();
+        }
+        FileWriter fw = new FileWriter(f, true);
+        BufferedWriter fos = new BufferedWriter(fw);
+        String descriptionInsert = description.getText().toString();
+        String nameInsert = name.getText().toString();
+        try{
+            //fw = new FileWriter(f);
+            //BufferedWriter fos = new BufferedWriter(fw);
+            fos.write(toWrite + "\n");
+//           fos.flush();
+            Log.d("done", "done");
+            fos.close();
+            fw.close();
+        } catch(FileNotFoundException e){
+            Log.d("ok", e.toString());
+        }finally {
+            fw.close();
+        }
+    }
 
     public void onChoose(View v) {
 
@@ -138,71 +203,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void onUploadTest(View v){
-
-        String user = "aksenov";
-        String password = "Datapass123";
-        String url = "jdbc:jtds:sqlserver://droneinsp.database.windows.net";
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        /*
-        try{
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, password);
-            String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
-                    + 100 + ", "
-                    + 2 + ", "
-                    + "04/24/2018" + ", "
-                    + "awesome" + ", "
-                    + "yeppp" + ", "
-                    + "google.com" + ", "
-                    + 1
-                    +  ");";
-            Statement stmt = con.createStatement();
-            stmt.execute(query);
-            stmt.close();
-            con.close();
-
-        }catch(SQLException e){
-            Log.d("sql", e.toString());
-        }catch(IllegalStateException e){
-            Log.d("sql", e.toString());
-        }catch(ClassNotFoundException e){
-            Log.d("sql", e.toString());
-        }*/
+    public void onUpload(View v) throws IOException{
 
 
-        try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, password);
-            String query = "INSERT INTO DroneInspDB.dbo.photos (photoID, userID, date, title, description, location, selected)"
-                    + " values (?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, 100);
-            preparedStatement.setInt(2, 2);
-            preparedStatement.setString(3, "4/16/2018");
-            preparedStatement.setString(4, "best bridge ever");
-            preparedStatement.setString(5, "yep, so good");
-            preparedStatement.setString(6, ourImageURL);
-            preparedStatement.setInt(7, 1);
-
-            preparedStatement.execute();
-            preparedStatement.close();
-            con.close();
-
-        }catch(SQLException e){
-            Log.d("sql", e.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    public void onUpload(View v) {
 
         if (chosenFile == null) {
             Toast.makeText(MainActivity.this, "Choose a file before upload.", Toast.LENGTH_SHORT)
@@ -215,11 +218,10 @@ public class MainActivity extends AppCompatActivity {
 
         ImgurService imgurService = ImgurService.retrofit.create(ImgurService.class);
 
-        EditText name = (EditText) findViewById(R.id.name);
-        EditText description = (EditText) findViewById(R.id.description);
-
-
+        final String postName = name.getText().toString();
+        final String postDescription = description.getText().toString();
         final Call<ImageResponse> call =
+
                 imgurService.postImage(
                         name.getText().toString(),
                         description.getText().toString(), "", "",
@@ -229,7 +231,8 @@ public class MainActivity extends AppCompatActivity {
                                 RequestBody.create(MediaType.parse("image/*"), chosenFile)
                         ));
 
-        call.enqueue(new Callback<ImageResponse>() {
+        call.enqueue(new Callback<ImageResponse>(){
+            String imageUrl = "";
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 if (response == null) {
@@ -242,7 +245,54 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
                     notificationHelper.createUploadedNotification(response.body());
                     ourImageURL = "http://imgur.com/" + response.body().data.id;
+                    Log.d("Test URL", ourImageURL);
+                    //fileArray.add( "http://imgur.com/" + response.body().data.id);
 
+                    File sdCard = Environment.getExternalStorageDirectory();
+                    File f = new File(sdCard + "/test.txt");
+                    if(!f.exists()){
+                        try {
+                            f.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    FileWriter fw = null;
+                    try {
+                        fw = new FileWriter(f, true);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    BufferedWriter fos = new BufferedWriter(fw);
+                    String photoTitle = name.getText().toString();
+                    String photoDescription = description.getText().toString();
+                    String id = HomeActivity.enteredUserName;
+                    Log.d("Test Again", ourImageURL);
+                    String query = "INSERT INTO photos (userID, date, title, description, location) VALUES ("
+                            + id + ", "
+                            + "'04/20/2018'" + ", "
+                            + "'" + postName +"'" + ", "
+                            + "'" + postDescription + "'" + ", "
+                            + "'" + ourImageURL + ".jpg" + "'" + ");";
+                    try{
+                        //fw = new FileWriter(f);
+                        //BufferedWriter fos = new BufferedWriter(fw);
+                        fos.write(query + "\n");
+//           fos.flush();
+                        Log.d("done", "done");
+                        fos.close();
+                        fw.close();
+                    } catch(IOException e){
+                        Log.d("ok", e.toString());
+                    }
+                     finally {
+                            try {
+                                fw.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    return;
                 }
             }
 
@@ -255,58 +305,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+
+        File sdCard = Environment.getExternalStorageDirectory();
+        Log.d("location", sdCard.getAbsolutePath());
+        //File dir = new File("/storage/self/primary");
+        Log.e("help", String.valueOf(sdCard.exists()));
+//        if (!dir.exists()){
+//            if(!dir.mkdir()){
+//                Log.e("ALERT","could not create directories");
+//            }
+//        }
+        //dir.mkdirs();
+        File f = new File(sdCard + "/test.txt");
+        if(!f.exists()){
+            f.createNewFile();
+        }
+        FileWriter fw = new FileWriter(f, true);
+        BufferedWriter fos = new BufferedWriter(fw);
         String photoTitle = name.getText().toString();
         String photoDescription = description.getText().toString();
-        String photoUrl = ourImageURL;
-/*
+        String id = HomeActivity.enteredUserName;
+        Log.d("Test Again", ourImageURL);
+        String query = "INSERT INTO photos (userID, date, title, description, location) VALUES ("
+                + id + ", "
+                + "04/20/2018" + ", "
+                + photoTitle + ", "
+                + photoDescription + ", "
+                + ourImageURL + ");";
         try{
-            Connection con = connectionClass.Conn();
-            String query = "INSERT INTO photo (photoID, userID, date, title, description, location, selected) VALUES ("
-                    + 100 + ", "
-                    + 2 + ", "
-                    + "awesome" + ", "
-                    + "yeppp" + ", "
-                    + "google.com" + ", "
-                    + 1
-                    +  ");";
-            Statement stmt = con.createStatement();
-            stmt.execute(query);
-            con.close();
-
-
-        }catch(SQLException e){
-            Log.d("sql", e.toString());
-        }catch(IllegalStateException e){
-            Log.d("sql", e.toString());
+            //fw = new FileWriter(f);
+            //BufferedWriter fos = new BufferedWriter(fw);
+            fos.write(query + "\n");
+//           fos.flush();
+            Log.d("done", "done");
+            fos.close();
+            fw.close();
+        } catch(FileNotFoundException e){
+            Log.d("ok", e.toString());
+        }finally {
+            fw.close();
         }
-*/
+        */
 
-        /*
-        try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            String connectionURL = "jdbc:jtds:sqlserver://" + url +";databaseName="+ database + ";user=" + userName + ";password=" + password + ";";
-            Connection con = DriverManager.getConnection(connectionURL);
-            String query = "insert into photo (photoID, userID, date, title, description, location, selected)"
-                    + " values (?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, 100);
-            preparedStatement.setInt(2, 2);
-            preparedStatement.setString(3, "4/16/2018");
-            preparedStatement.setString(4, "best bridge ever");
-            preparedStatement.setString(5, "yep, so good");
-            preparedStatement.setString(6, ourImageURL);
-            preparedStatement.setInt(7, 1);
-
-            preparedStatement.execute();
-            con.close();
-
-        }catch(SQLException e){
-            Log.d("sql", e.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-*/
         imageView.setImageResource(android.R.color.transparent);
         name.setText("");
         description.setText("");

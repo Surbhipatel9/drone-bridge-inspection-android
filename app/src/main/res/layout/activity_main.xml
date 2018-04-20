@@ -74,6 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimaryDark"
+        android:onClick="onUpload"
         android:text="@string/btn_upload"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
