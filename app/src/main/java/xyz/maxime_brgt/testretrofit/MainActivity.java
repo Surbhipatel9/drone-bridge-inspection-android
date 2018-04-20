@@ -268,8 +268,9 @@ public class MainActivity extends AppCompatActivity {
                     String photoDescription = description.getText().toString();
                     String id = HomeActivity.enteredUserName;
                     Log.d("Test Again", ourImageURL);
-                    String query = "INSERT INTO photos (userID, date, title, description, location) VALUES ("
+                    String query = "INSERT INTO photos (userID, reportID, date, title, description, location) VALUES ("
                             + id + ", "
+                            + "1" + ", "
                             + "'04/20/2018'" + ", "
                             + "'" + postName +"'" + ", "
                             + "'" + postDescription + "'" + ", "
@@ -436,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void backButton(View v){
-        Intent goToLoginIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent goToLoginIntent = new Intent(getApplicationContext(), NavigateActivity.class);
         startActivity(goToLoginIntent);
     }
 }

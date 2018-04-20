@@ -7,9 +7,10 @@
     <string name="input_title">Title</string>
     <string name="input_description">Description</string>
     <string name="btn_picture">Browse</string>
-    <string name="btn_upload">Upload</string>
+    <string name="btn_upload">Generate</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="userid">Enter Your UserID</string>
 
     <string name="login_button">Login</string>
     <string name="loginButtonHint">Username</string>
