@@ -62,27 +62,14 @@ public class MainActivity extends AppCompatActivity {
     private EditText description;
     private EditText name;
     private TextView uploadAsTextView;
-
-    private ArrayList<String> fileArray = new ArrayList<String>();
-
     private Button uploadButton;
 
-    public String fileName = "helloWorld";
-    public String body = "hey its me";
-    public final static String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/instinctcoder/readwrite/" ;
     //database info
-    public String  toWrite = "its me adam";
+    //public String  toWrite = "its me adam";
     public String filename = "test";
-
-    public String[] yep = new String[1];
-
-
     public static String ourImageURL = "";
 
-    //ConnectionClass connectionClass = new ConnectionClass();
     private String uploadUserName = HomeActivity.enteredUserName;
-
-    //String url, userName, password, database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,18 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         uploadButton = (Button) findViewById(R.id.uploadButton);
 
-        //connectionClass = new ConnectionClass();
-
+/*
         File sdCard = Environment.getExternalStorageDirectory();
         Log.d("location", sdCard.getAbsolutePath());
-        //File dir = new File("/storage/self/primary");
         Log.e("help", String.valueOf(sdCard.exists()));
-//        if (!dir.exists()){
-//            if(!dir.mkdir()){
-//                Log.e("ALERT","could not create directories");
-//            }
-//        }
-        //dir.mkdirs();
         File f = new File(sdCard + "/test.txt");
         if(!f.exists()){
             try {
@@ -125,10 +104,7 @@ public class MainActivity extends AppCompatActivity {
         String descriptionInsert = description.getText().toString();
         String nameInsert = name.getText().toString();
         try{
-            //fw = new FileWriter(f);
-            //BufferedWriter fos = new BufferedWriter(fw);
             fos.write("");
-//           fos.flush();
             Log.d("done", "done");
             fos.close();
             fw.close();
@@ -143,34 +119,18 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        */
 
         uploadAsTextView.setText("Uploading as... " + uploadUserName);
 
     }
 
-    public static boolean canWriteOnExternalStorage() {
-        // get the state of your external storage
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            // if storage is mounted return true
-            //Log.v(“sTag”, “Yes, can write to external storage.”);
-            return true;
-        }
-        return false;
-    }
-
-
+/*
     public void fileUpload(View v) throws IOException {
         File sdCard = Environment.getExternalStorageDirectory();
         Log.d("location", sdCard.getAbsolutePath());
         //File dir = new File("/storage/self/primary");
         Log.e("help", String.valueOf(sdCard.exists()));
-//        if (!dir.exists()){
-//            if(!dir.mkdir()){
-//                Log.e("ALERT","could not create directories");
-//            }
-//        }
-        //dir.mkdirs();
         File f = new File(sdCard + "/test.txt");
         if(!f.exists()){
             f.createNewFile();
@@ -180,10 +140,7 @@ public class MainActivity extends AppCompatActivity {
         String descriptionInsert = description.getText().toString();
         String nameInsert = name.getText().toString();
         try{
-            //fw = new FileWriter(f);
-            //BufferedWriter fos = new BufferedWriter(fw);
             fos.write(toWrite + "\n");
-//           fos.flush();
             Log.d("done", "done");
             fos.close();
             fw.close();
@@ -194,18 +151,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    */
+
     public void onChoose(View v) {
 
-    Intent intent = new Intent();
-    intent.setType("image/*");
-    intent.setAction(Intent.ACTION_GET_CONTENT);
-    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
     }
 
     public void onUpload(View v) throws IOException{
-
-
 
         if (chosenFile == null) {
             Toast.makeText(MainActivity.this, "Choose a file before upload.", Toast.LENGTH_SHORT)
@@ -246,10 +203,9 @@ public class MainActivity extends AppCompatActivity {
                     notificationHelper.createUploadedNotification(response.body());
                     ourImageURL = "http://imgur.com/" + response.body().data.id;
                     Log.d("Test URL", ourImageURL);
-                    //fileArray.add( "http://imgur.com/" + response.body().data.id);
-
                     File sdCard = Environment.getExternalStorageDirectory();
-                    File f = new File(sdCard + "/test.txt");
+                    //File f = new File(sdCard + "/test.txt");
+                    File f = new File(sdCard + "/" + BridgeSelectActivity.bridgeID + ".txt");
                     if(!f.exists()){
                         try {
                             f.createNewFile();
@@ -267,19 +223,17 @@ public class MainActivity extends AppCompatActivity {
                     String photoTitle = name.getText().toString();
                     String photoDescription = description.getText().toString();
                     String id = HomeActivity.enteredUserName;
+                    String bridgeID = BridgeSelectActivity.bridgeID;
                     Log.d("Test Again", ourImageURL);
                     String query = "INSERT INTO photos (userID, reportID, date, title, description, location) VALUES ("
                             + id + ", "
-                            + "1" + ", "
+                            + bridgeID + ", "
                             + "'04/20/2018'" + ", "
                             + "'" + postName +"'" + ", "
                             + "'" + postDescription + "'" + ", "
                             + "'" + ourImageURL + ".jpg" + "'" + ");";
                     try{
-                        //fw = new FileWriter(f);
-                        //BufferedWriter fos = new BufferedWriter(fw);
                         fos.write(query + "\n");
-//           fos.flush();
                         Log.d("done", "done");
                         fos.close();
                         fw.close();
@@ -306,53 +260,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-
-        File sdCard = Environment.getExternalStorageDirectory();
-        Log.d("location", sdCard.getAbsolutePath());
-        //File dir = new File("/storage/self/primary");
-        Log.e("help", String.valueOf(sdCard.exists()));
-//        if (!dir.exists()){
-//            if(!dir.mkdir()){
-//                Log.e("ALERT","could not create directories");
-//            }
-//        }
-        //dir.mkdirs();
-        File f = new File(sdCard + "/test.txt");
-        if(!f.exists()){
-            f.createNewFile();
-        }
-        FileWriter fw = new FileWriter(f, true);
-        BufferedWriter fos = new BufferedWriter(fw);
-        String photoTitle = name.getText().toString();
-        String photoDescription = description.getText().toString();
-        String id = HomeActivity.enteredUserName;
-        Log.d("Test Again", ourImageURL);
-        String query = "INSERT INTO photos (userID, date, title, description, location) VALUES ("
-                + id + ", "
-                + "04/20/2018" + ", "
-                + photoTitle + ", "
-                + photoDescription + ", "
-                + ourImageURL + ");";
-        try{
-            //fw = new FileWriter(f);
-            //BufferedWriter fos = new BufferedWriter(fw);
-            fos.write(query + "\n");
-//           fos.flush();
-            Log.d("done", "done");
-            fos.close();
-            fw.close();
-        } catch(FileNotFoundException e){
-            Log.d("ok", e.toString());
-        }finally {
-            fw.close();
-        }
-        */
-
         imageView.setImageResource(android.R.color.transparent);
         name.setText("");
         description.setText("");
-
 
     }
 

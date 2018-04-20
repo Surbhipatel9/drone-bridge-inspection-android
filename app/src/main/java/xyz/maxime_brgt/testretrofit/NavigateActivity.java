@@ -27,7 +27,7 @@ public class NavigateActivity extends AppCompatActivity {
     }
 
     public void toUploadButton(View v){
-        Intent goToUploadIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent goToUploadIntent = new Intent(getApplicationContext(), BridgeSelectActivity.class);
         startActivity(goToUploadIntent);
 
     }

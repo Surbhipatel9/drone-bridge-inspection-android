@@ -16,6 +16,7 @@
     <string name="loginButtonHint">Username</string>
     <string name="loginTitle">WV DoT Drone-Bridge Application</string>
     <string name="backButton">Back</string>
+    <string name="nextButton">Next</string>
     <string name="title_activity_navigate">NavigateActivity</string>
 
     <string name="toLoginButton">Back</string>
@@ -24,4 +25,7 @@
     <string name="navigatePageTitle">Select an Action</string>
     <string name="title_activity_view_recent">ViewRecentActivity</string>
     <string name="recentLabel">Your Recently Uploaded</string>
+    <string name="bridgeHint">Bridge ID</string>
+
+    <string name="bridgeSelectLabel">Enter Bridge ID for Upload</string>
 </resources>
