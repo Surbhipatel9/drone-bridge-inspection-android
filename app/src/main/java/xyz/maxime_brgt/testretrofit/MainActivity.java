@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.icu.util.Calendar;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,8 +38,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,13 +69,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView uploadAsTextView;
     private Button uploadButton;
 
-    //database info
     //public String  toWrite = "its me adam";
     public String filename = "test";
     public static String ourImageURL = "";
 
     private String uploadUserName = HomeActivity.enteredUserName;
 
+    String formattedDate = "";
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
 
         uploadButton = (Button) findViewById(R.id.uploadButton);
+
+        Date c = Calendar.getInstance().getTime();
+        //System.out.println("Current time => " + c);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        formattedDate = df.format(c);
+
+        Log.d("ourDate", formattedDate.toString());
 
 /*
         File sdCard = Environment.getExternalStorageDirectory();
@@ -228,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     String query = "INSERT INTO photos (userID, reportID, date, title, description, location) VALUES ("
                             + id + ", "
                             + bridgeID + ", "
-                            + "'04/20/2018'" + ", "
+                            + "'" + formattedDate +"'" + ", "
                             + "'" + postName +"'" + ", "
                             + "'" + postDescription + "'" + ", "
                             + "'" + ourImageURL + ".jpg" + "'" + ");";
@@ -263,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageResource(android.R.color.transparent);
         name.setText("");
         description.setText("");
-
     }
 
     @Override
@@ -286,8 +299,7 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
 
             Log.d(this.getLocalClassName(), "Before check");
-
-
+            
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 final List<String> permissionsList = new ArrayList<String>();
                 addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
