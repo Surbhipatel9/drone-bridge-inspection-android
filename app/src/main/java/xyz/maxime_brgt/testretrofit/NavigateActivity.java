@@ -65,6 +65,11 @@ public class NavigateActivity extends AppCompatActivity {
 
     }
 
+    public void readyButton(View v){
+        Intent ready = new Intent(getApplicationContext(), ReadyActivity.class);
+        startActivity(ready);
+    }
+
     public void setToLoginButton(View v){
         Intent goToLoginIntent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(goToLoginIntent);
@@ -167,7 +172,7 @@ public class NavigateActivity extends AppCompatActivity {
                             String query = "INSERT INTO photos (userID, reportID, date, title, description, location) VALUES ("
                                     + bridgeUserIDs.get(spot) + ", "
                                     + bridgeIDs.get(spot)+ ", "
-                                    + "'" + MainActivity.formattedDate + "'" + ", "
+                                    + "'" + ImageEditActivity.formattedDate + "'" + ", "
                                     + "'" + bridgeNames.get(spot) + "'" + ", "
                                     + "'" + bridgeDescrtiptions.get(spot) + "'" + ", "
                                     + "'" + droneImageURL + ".jpg" + "'" + ");";

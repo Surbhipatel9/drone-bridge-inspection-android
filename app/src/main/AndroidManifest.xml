@@ -31,7 +31,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".BridgeSelectActivity" />
         <activity android:name=".GridActivity" />
-        <activity android:name=".ImageEditActivity"></activity>
+        <activity android:name=".ImageEditActivity" />
+        <activity
+            android:name=".ReadyActivity"
+            android:label="@string/title_activity_ready"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

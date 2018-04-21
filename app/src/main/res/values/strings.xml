@@ -27,7 +27,9 @@
     <string name="title_activity_view_recent">ViewRecentActivity</string>
     <string name="recentLabel">Your Recently Uploaded</string>
     <string name="bridgeHint">Bridge ID</string>
-    <string name = "removeButton">Remove</string>
+    <string name="removeButton">Remove</string>
+    <string name="readyButton">View Ready</string>
 
     <string name="bridgeSelectLabel">Enter Bridge ID for Upload</string>
+    <string name="title_activity_ready">ReadyActivity</string>
 </resources>

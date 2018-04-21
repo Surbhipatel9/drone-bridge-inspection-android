@@ -118,7 +118,7 @@ public class ImageEditActivity extends AppCompatActivity {
         }
         */
 
-        uploadAsTextView.setText("USERID: " + uploadUserName + " BRIDGEID: " + BridgeSelectActivity.bridgeID);
+        uploadAsTextView.setText("USERID:" + uploadUserName + " BRIDGEID:" + BridgeSelectActivity.bridgeID);
 
     }
 
