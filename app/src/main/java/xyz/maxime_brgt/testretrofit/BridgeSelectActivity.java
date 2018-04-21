@@ -34,7 +34,10 @@ public class BridgeSelectActivity extends AppCompatActivity {
             Toast.makeText(BridgeSelectActivity.this, "Please enter a bridge ID", Toast.LENGTH_SHORT).show();
             Log.d("ok", bridgeIDEditText.toString());
         }else{
-            Intent nextIntent = new Intent(getApplicationContext(), MainActivity.class);
+//            Intent nextIntent = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(nextIntent);
+
+            Intent nextIntent = new Intent(getApplicationContext(), GridActivity.class);
             startActivity(nextIntent);
         }
     }

@@ -33,7 +33,8 @@
             android:name=".ViewRecentActivity"
             android:label="@string/title_activity_view_recent"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".BridgeSelectActivity"></activity>
+        <activity android:name=".BridgeSelectActivity" />
+        <activity android:name=".GridActivity"></activity>
     </application>
 
 </manifest>
