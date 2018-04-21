@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.os.AsyncTask;
         import android.os.Bundle;
         import android.os.Environment;
@@ -247,7 +248,7 @@ public class GridActivity extends Activity {
 
     }
 
-    ImageAdapter myImageAdapter;
+    static ImageAdapter myImageAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -301,11 +302,18 @@ public class GridActivity extends Activity {
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             String prompt = "remove " + (String) parent.getItemAtPosition(position);
-            Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT)
+//                    .show();
 
-            myImageAdapter.remove(position);
-            myImageAdapter.notifyDataSetChanged();
+//            myImageAdapter.remove(position);
+//            myImageAdapter.notifyDataSetChanged();
+            ImageEditActivity.fileLocation = myImageAdapter.itemList.get(position);
+            ImageEditActivity.position = position;
+            Intent editIntent = new Intent(getApplicationContext(), ImageEditActivity.class);
+            startActivity(editIntent);
+            Log.d("testing123", "positin... " + position);
+
+            Log.d("testing123", myImageAdapter.itemList.get(position));
 
         }
     };
