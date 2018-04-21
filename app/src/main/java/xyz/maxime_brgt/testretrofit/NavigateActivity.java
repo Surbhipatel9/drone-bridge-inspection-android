@@ -91,10 +91,7 @@ public class NavigateActivity extends AppCompatActivity {
                 String line;
                 while ((line = br.readLine()) != null) {
                     lineArray = line.split(",");
-//                    String fileName = lineArray[0].substring(lineArray[0].lastIndexOf("/") + 1 );
-//                    filePaths.add(fileName);
                     filePaths.add(lineArray[0]);
-                    //Log.d("lineTesting", fileName);
                     bridgeIDs.add(lineArray[1]);
                     bridgeNames.add(lineArray[2]);
                     bridgeDescrtiptions.add(lineArray[3]);
@@ -123,25 +120,18 @@ public class NavigateActivity extends AppCompatActivity {
 
                 final NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());
                 notificationHelper.createUploadingNotification();
-
                 ImgurService imgurService = ImgurService.retrofit.create(ImgurService.class);
-
-//            final String postName = name.getText().toString();
-//            final String postDescription = description.getText().toString();
                 final int spot = filePaths.indexOf(item);
         Log.d("testing123", filePaths.get(spot));
                 final Call<ImageResponse> call =
                         imgurService.postImage(
-                                //bridgeNames.get(spot),
                                 bridgeNames.get(spot),
-                                /*bridgeDescrtiptions.get(spot)*/ bridgeDescrtiptions.get(0), "", "",
+                                bridgeDescrtiptions.get(spot), "", "",
                                 MultipartBody.Part.createFormData(
                                         "image",
-                                        //filePaths.get(spot),
                                         filePaths.get(spot),
                                         RequestBody.create(MediaType.parse("image/*"), /*filePaths.get(spot)*/ files.get(spot))
                                 ));
-                Log.d("testing123", "hey... " + filePaths.get(0));
                 call.enqueue(new Callback<ImageResponse>() {
 
                     @Override
@@ -208,6 +198,8 @@ public class NavigateActivity extends AppCompatActivity {
                     }
                 });
             }
+
+
        }
 
     }

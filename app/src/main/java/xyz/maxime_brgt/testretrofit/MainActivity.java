@@ -1,22 +1,18 @@
 package xyz.maxime_brgt.testretrofit;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.icu.util.Calendar;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,39 +20,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static xyz.maxime_brgt.testretrofit.Constants.PICK_IMAGE_REQUEST;
 import static xyz.maxime_brgt.testretrofit.Constants.READ_WRITE_EXTERNAL;
@@ -70,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText name;
     private TextView uploadAsTextView;
     private Button uploadButton;
-
-    public ArrayList<String> filePathList = new ArrayList<String>();
-
-    //public String  toWrite = "its me adam";
-    public String filename = "test";
+    
     public static String ourImageURL = "";
 
     private String uploadUserName = HomeActivity.enteredUserName;
@@ -95,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         uploadButton = (Button) findViewById(R.id.uploadButton);
 
         Date c = Calendar.getInstance().getTime();
-        //System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formattedDate = df.format(c);
         Log.d("ourDate", formattedDate.toString());
@@ -139,30 +107,32 @@ public class MainActivity extends AppCompatActivity {
         }
         */
 
-        uploadAsTextView.setText("Uploading as... " + uploadUserName);
+        uploadAsTextView.setText("Adding images as... " + uploadUserName + " to a bridge with ID of " + BridgeSelectActivity.bridgeID);
 
     }
 
-
-
     public void onChoose(View v) {
-
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
+//        File sdDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File f = new File(sdDir, "DJI");
+//        Log.d("fileTesting", f.getPath());
+//        Intent i = new Intent();
+//        i.setAction(Intent.ACTION_VIEW);
+//        i.setDataAndType(Uri.withAppendedPath(Uri.fromFile(f), "DJI"), "image/*");
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        i.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(i, "Select Picture"), PICK_IMAGE_REQUEST);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
             returnUri = data.getData();
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), returnUri);
 
@@ -196,21 +166,16 @@ public class MainActivity extends AppCompatActivity {
     private void getFilePath() {
         String filePath = DocumentHelper.getPath(this, this.returnUri);
         imagePath = filePath;
-        Log.d("testing123", "file path testing... " + filePath);
-        //Safety check to prevent null pointer exception
         if (filePath == null || filePath.isEmpty()) return;
         chosenFile = new File(filePath);
-        Log.d("testing123", filePath);
-}
+    }
 
     public void addFilePath(View v) {
         String bridgeID = BridgeSelectActivity.bridgeID;
         String bridgeName = name.getText().toString();
         String bridgeDescription = description.getText().toString();
         String bridgeUserID = HomeActivity.enteredUserName;
-        //Log.d("Test URL", ourImageURL);
         File sdCard = Environment.getExternalStorageDirectory();
-        //File f = new File(sdCard + "/test.txt");
         File f = new File(sdCard +  "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
         if (!f.exists()) {
             try {
