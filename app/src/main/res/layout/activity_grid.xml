@@ -5,10 +5,19 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        android:onClick="backButtonMethod"
+        android:text="@string/toLoginButton" />
+
+    <Button
         android:id="@+id/reload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reload"/>
+        android:background="@android:color/holo_blue_dark"
+        android:text="Reload" />
     <GridView
         android:id="@+id/gridview"
         android:layout_width="fill_parent"

@@ -250,6 +250,8 @@ public class GridActivity extends Activity {
 
     static ImageAdapter myImageAdapter;
 
+    Button backButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -259,6 +261,7 @@ public class GridActivity extends Activity {
         myImageAdapter = new ImageAdapter(getApplicationContext());
         gridview.setAdapter(myImageAdapter);
 
+        backButton = (Button) findViewById(R.id.backButton);
 		/*
 		 * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
 		 * Environment .getExternalStorageDirectory() .getAbsolutePath();
@@ -317,5 +320,11 @@ public class GridActivity extends Activity {
 
         }
     };
+
+    public void backButtonMethod(View v){
+        Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);
+        startActivity(back);
+
+    }
 
 }
