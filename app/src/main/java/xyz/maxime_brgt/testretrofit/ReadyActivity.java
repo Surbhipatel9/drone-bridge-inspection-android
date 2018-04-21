@@ -366,7 +366,7 @@ public class ReadyActivity extends Activity {
     };
 
     public void backButtonMethod(View v){
-        Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);
+        Intent back = new Intent(getApplicationContext(), NavigateActivity.class);
         startActivity(back);
 
     }

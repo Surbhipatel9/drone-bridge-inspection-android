@@ -203,8 +203,7 @@ public class NavigateActivity extends AppCompatActivity {
                     }
                 });
             }
-
-
+        Toast.makeText(NavigateActivity.this, "FINISHED UPLOADING", Toast.LENGTH_LONG).show();
        }
 
     }

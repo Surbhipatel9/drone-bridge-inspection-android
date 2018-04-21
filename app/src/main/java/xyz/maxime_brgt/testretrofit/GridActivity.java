@@ -55,9 +55,21 @@ public class GridActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            File[] files = targetDirector.listFiles();
-            for(int i = 0; i < files.length; i++)
-                Log.d("Oranges", files[i].toString());
+            File[] toProcess = targetDirector.listFiles();
+            ArrayList<File> list = new ArrayList<>();
+            for(File item : toProcess)
+            {
+                if(item.getName().endsWith(".jpg"))
+                {
+                    Log.d("Oranges", "Added:" + item.getName());
+                    list.add(item);
+                }
+                else
+                {
+                    Log.d("Oranges", "Removed" + item.getName());
+                }
+            }
+            File[] files = list.toArray(new File[list.size()]);
 
             Arrays.sort(files);
             for (File file : files) {
