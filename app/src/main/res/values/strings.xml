@@ -21,6 +21,7 @@
 
     <string name="toLoginButton">Back</string>
     <string name="toUploadButton">Upload</string>
+    <string name="addImageButton">Add Images</string>
     <string name="toViewOldButton">View Recent</string>
     <string name="navigatePageTitle">Select an Action</string>
     <string name="title_activity_view_recent">ViewRecentActivity</string>

@@ -25,10 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -69,13 +71,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView uploadAsTextView;
     private Button uploadButton;
 
+    public ArrayList<String> filePathList = new ArrayList<String>();
+
     //public String  toWrite = "its me adam";
     public String filename = "test";
     public static String ourImageURL = "";
 
     private String uploadUserName = HomeActivity.enteredUserName;
 
-    String formattedDate = "";
+    public static String formattedDate = "";
+
+    private String imagePath = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -86,14 +92,12 @@ public class MainActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
-
         uploadButton = (Button) findViewById(R.id.uploadButton);
 
         Date c = Calendar.getInstance().getTime();
         //System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formattedDate = df.format(c);
-
         Log.d("ourDate", formattedDate.toString());
 
 /*
@@ -139,33 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-/*
-    public void fileUpload(View v) throws IOException {
-        File sdCard = Environment.getExternalStorageDirectory();
-        Log.d("location", sdCard.getAbsolutePath());
-        //File dir = new File("/storage/self/primary");
-        Log.e("help", String.valueOf(sdCard.exists()));
-        File f = new File(sdCard + "/test.txt");
-        if(!f.exists()){
-            f.createNewFile();
-        }
-        FileWriter fw = new FileWriter(f, true);
-        BufferedWriter fos = new BufferedWriter(fw);
-        String descriptionInsert = description.getText().toString();
-        String nameInsert = name.getText().toString();
-        try{
-            fos.write(toWrite + "\n");
-            Log.d("done", "done");
-            fos.close();
-            fw.close();
-        } catch(FileNotFoundException e){
-            Log.d("ok", e.toString());
-        }finally {
-            fw.close();
-        }
-    }
 
-    */
 
     public void onChoose(View v) {
 
@@ -176,108 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onUpload(View v) throws IOException{
-
-        if (chosenFile == null) {
-            Toast.makeText(MainActivity.this, "Choose a file before upload.", Toast.LENGTH_SHORT)
-                    .show();
-            return;
-        }
-
-        final NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());
-        notificationHelper.createUploadingNotification();
-
-        ImgurService imgurService = ImgurService.retrofit.create(ImgurService.class);
-
-        final String postName = name.getText().toString();
-        final String postDescription = description.getText().toString();
-        final Call<ImageResponse> call =
-
-                imgurService.postImage(
-                        name.getText().toString(),
-                        description.getText().toString(), "", "",
-                        MultipartBody.Part.createFormData(
-                                "image",
-                                chosenFile.getName(),
-                                RequestBody.create(MediaType.parse("image/*"), chosenFile)
-                        ));
-
-        call.enqueue(new Callback<ImageResponse>(){
-            String imageUrl = "";
-            @Override
-            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
-                if (response == null) {
-                    notificationHelper.createFailedUploadNotification();
-                    return;
-                }
-                if (response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Upload successful !", Toast.LENGTH_SHORT)
-                            .show();
-                    Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
-                    notificationHelper.createUploadedNotification(response.body());
-                    ourImageURL = "http://imgur.com/" + response.body().data.id;
-                    Log.d("Test URL", ourImageURL);
-                    File sdCard = Environment.getExternalStorageDirectory();
-                    //File f = new File(sdCard + "/test.txt");
-                    File f = new File(sdCard + "/" + BridgeSelectActivity.bridgeID + ".txt");
-                    if(!f.exists()){
-                        try {
-                            f.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    FileWriter fw = null;
-                    try {
-                        fw = new FileWriter(f, true);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    BufferedWriter fos = new BufferedWriter(fw);
-                    String photoTitle = name.getText().toString();
-                    String photoDescription = description.getText().toString();
-                    String id = HomeActivity.enteredUserName;
-                    String bridgeID = BridgeSelectActivity.bridgeID;
-                    Log.d("Test Again", ourImageURL);
-                    String query = "INSERT INTO photos (userID, reportID, date, title, description, location) VALUES ("
-                            + id + ", "
-                            + bridgeID + ", "
-                            + "'" + formattedDate +"'" + ", "
-                            + "'" + postName +"'" + ", "
-                            + "'" + postDescription + "'" + ", "
-                            + "'" + ourImageURL + ".jpg" + "'" + ");";
-                    try{
-                        fos.write(query + "\n");
-                        Log.d("done", "done");
-                        fos.close();
-                        fw.close();
-                    } catch(IOException e){
-                        Log.d("ok", e.toString());
-                    }
-                     finally {
-                            try {
-                                fw.close();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    return;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ImageResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "An unknown error has occured.", Toast.LENGTH_SHORT)
-                        .show();
-                notificationHelper.createFailedUploadNotification();
-                t.printStackTrace();
-            }
-        });
-
-        imageView.setImageResource(android.R.color.transparent);
-        name.setText("");
-        description.setText("");
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -299,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
 
             Log.d(this.getLocalClassName(), "Before check");
-            
+
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 final List<String> permissionsList = new ArrayList<String>();
                 addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -319,11 +195,59 @@ public class MainActivity extends AppCompatActivity {
 
     private void getFilePath() {
         String filePath = DocumentHelper.getPath(this, this.returnUri);
+        imagePath = filePath;
+        Log.d("testing123", "file path testing... " + filePath);
         //Safety check to prevent null pointer exception
         if (filePath == null || filePath.isEmpty()) return;
         chosenFile = new File(filePath);
-        Log.d("FilePath", filePath);
+        Log.d("testing123", filePath);
+}
+
+    public void addFilePath(View v) {
+        String bridgeID = BridgeSelectActivity.bridgeID;
+        String bridgeName = name.getText().toString();
+        String bridgeDescription = description.getText().toString();
+        String bridgeUserID = HomeActivity.enteredUserName;
+        //Log.d("Test URL", ourImageURL);
+        File sdCard = Environment.getExternalStorageDirectory();
+        //File f = new File(sdCard + "/test.txt");
+        File f = new File(sdCard +  "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(f, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedWriter fos = new BufferedWriter(fw);
+        String pathToWrite = imagePath;
+        try {
+            fos.write(pathToWrite + ", " + bridgeID + ", " + bridgeName + ", " + bridgeDescription + ", " + bridgeUserID + "\n");
+            Log.d("done", "done");
+            fos.close();
+            fw.close();
+        } catch (IOException e) {
+            Log.d("ok", e.toString());
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        //return;
+
+        imageView.setImageResource(android.R.color.transparent);
+        name.setText("");
+        description.setText("");
     }
+
 
     private void addPermission(List<String> permissionsList, String permission) {
         if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {

@@ -23,10 +23,10 @@
         android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.628"
+        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.719" />
+        app:layout_constraintVertical_bias="0.688" />
 
     <EditText
         android:id="@+id/name"
@@ -74,7 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/holo_blue_light"
-        android:onClick="onUpload"
+        android:onClick="addFilePath"
         android:text="@string/btn_upload"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
