@@ -33,19 +33,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void loginButton(View v) {
-//        enteredUserName = usernameEditText.getText().toString();
-//
-//        if(enteredUserName == null || enteredUserName.equals("")){
-//            Toast.makeText(getApplicationContext(), "Please enter a username",
-//                    Toast.LENGTH_LONG).show();
-//        }
-//        else {
-//            Intent goToNavigateIntent = new Intent(getApplicationContext(), NavigateActivity.class);
-//            startActivity(goToNavigateIntent);
-//        }
-
         Intent goToImageIntent = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(goToImageIntent);
+
+       // ConnectionClass.insertPhotoQuery();
 
     }
 

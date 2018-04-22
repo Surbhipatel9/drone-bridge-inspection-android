@@ -58,8 +58,6 @@ public class BridgeSelectActivity extends AppCompatActivity {
             Toast.makeText(BridgeSelectActivity.this, "Please enter a user ID", Toast.LENGTH_SHORT).show();
         }
         else{
-//            Intent nextIntent = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(nextIntent);
             String[] lineArray;
 
             ArrayList<String> filePaths = new ArrayList<String>();
@@ -123,6 +121,7 @@ public class BridgeSelectActivity extends AppCompatActivity {
                             Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
                             //notificationHelper.createUploadedNotification(response.body());
                             String droneImageURL = "http://imgur.com/" + response.body().data.id;
+                            ConnectionClass.insertPhotoQuery();
                             Log.d("test123", droneImageURL);
 
                         }
