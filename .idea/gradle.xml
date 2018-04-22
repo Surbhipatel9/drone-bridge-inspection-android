@@ -10,7 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/jtds-1.2.7" />
-            <option value="$PROJECT_DIR$/mssql-jdbc-6.4.0.jre9" />
+            <option value="$PROJECT_DIR$/mysql-connector-java-8.0.11" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

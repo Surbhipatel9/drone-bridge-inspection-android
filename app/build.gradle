@@ -30,6 +30,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile project(':jtds-1.2.7')
-    //compile project(':mssql-jdbc-6.4.0.jre9')
+    //compile project(':jtds-1.2.7')
+    //compile project(':mysql-connector-java-8.0.11')
 }

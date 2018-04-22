@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Drone-Bridge Application</string>
+    <string name="app_name">Drone Upload App</string>
     <string name="notification_success">Picture uploaded.</string>
     <string name="notification_progress">Uploading...</string>
     <string name="notification_share_link">Picture link</string>
