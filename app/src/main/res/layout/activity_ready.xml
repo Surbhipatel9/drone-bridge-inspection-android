@@ -13,20 +13,31 @@
         android:text="@string/toLoginButton" />
 
     <Button
+        android:id="@+id/clearButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:onClick="clearButtonMethod"
+        android:text="@string/clearButton"
+        android:textColor="@android:color/background_light" />
+
+    <Button
         android:id="@+id/reload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_dark"
-        android:text="Reload" />
+        android:onClick="finishButtonMethod"
+        android:text="@string/finishButton" />
+
     <GridView
         android:id="@+id/gridview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:columnWidth="110dp"
+        android:gravity="left"
+        android:horizontalSpacing="30dp"
         android:numColumns="1"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
-        android:gravity="left"/>
+        android:verticalSpacing="10dp" />
 
 </LinearLayout>

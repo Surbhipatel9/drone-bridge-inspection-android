@@ -2,8 +2,10 @@ package xyz.maxime_brgt.testretrofit;
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,10 +64,9 @@ public class ReadyActivity extends Activity {
 
             String[] lineArray;
             ArrayList<String> filePaths = new ArrayList<String>();
-            final ArrayList<String> bridgeIDs = new ArrayList<String>();
             final ArrayList<String> bridgeNames = new ArrayList<String>();
             final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
-            final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
+            //final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
             final ArrayList<File> ourFiles = new ArrayList<File>();
 
             File ourFile = null;
@@ -76,15 +79,11 @@ public class ReadyActivity extends Activity {
                 while ((line = br.readLine()) != null) {
                     lineArray = line.split(",");
                     filePaths.add(lineArray[0]);
-                    bridgeIDs.add(lineArray[1]);
-                    bridgeNames.add(lineArray[2]);
-                    bridgeDescrtiptions.add(lineArray[3]);
-                    bridgeUserIDs.add(lineArray[4]);
-                    Log.d("lineTesting", lineArray[0]);
-                    Log.d("lineTesting", lineArray[1]);
-                    Log.d("lineTesting", lineArray[2]);
-                    Log.d("lineTesting", lineArray[3]);
-                    Log.d("lineTesting", lineArray[4]);
+                    //bridgeIDs.add(lineArray[1]);
+                    bridgeNames.add(lineArray[1]);
+                    bridgeDescrtiptions.add(lineArray[2]);
+                    //bridgeUserIDs.add(lineArray[4]);
+                    //Log.d("lineTesting", lineArray[4]);
                     ourFile = new File(lineArray[0]);
                     ourFiles.add(ourFile);
                     Log.d("testing123", "please work..." + filePaths.get(0));
@@ -94,10 +93,6 @@ public class ReadyActivity extends Activity {
                 e.printStackTrace();
             }
 
-//            ArrayList<String> l = something();
-//            String[] foo = l.toArray(new String[foo.size()]);
-
-            //File[] files = targetDirector.listFiles();
             File[] files = ourFiles.toArray(new File[ourFiles.size()]);
             for(int i = 0; i < files.length; i++)
                 Log.d("Oranges", files[i].toString());
@@ -141,7 +136,7 @@ public class ReadyActivity extends Activity {
             itemList.clear();
         }
 
-        void remove(int index){
+        void remove(int index) {
             itemList.remove(index);
         }
 
@@ -163,27 +158,27 @@ public class ReadyActivity extends Activity {
         }
 
         //getView load bitmap ui thread
-  /*
-  @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-   ImageView imageView;
-   if (convertView == null) { // if it's not recycled, initialize some
-          // attributes
-    imageView = new ImageView(mContext);
-    imageView.setLayoutParams(new GridView.LayoutParams(220, 220));
-    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-    imageView.setPadding(8, 8, 8, 8);
-   } else {
-    imageView = (ImageView) convertView;
-   }
 
-   Bitmap bm = decodeSampledBitmapFromUri(itemList.get(position), 220,
-     220);
-
-   imageView.setImageBitmap(bm);
-   return imageView;
-  }
-  */
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ImageView imageView;
+//            if (convertView == null) { // if it's not recycled, initialize some
+//                // attributes
+//                imageView = new ImageView(mContext);
+//                imageView.setLayoutParams(new GridView.LayoutParams(220, 220));
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                imageView.setPadding(8, 8, 8, 8);
+//            } else {
+//                imageView = (ImageView) convertView;
+//            }
+//
+//            Bitmap bm = decodeSampledBitmapFromUri(itemList.get(position), 220,
+//                    220);
+//
+//            imageView.setImageBitmap(bm);
+//            return imageView;
+//        }
+//    }
 
         //getView load bitmap in AsyncTask
         @Override
@@ -294,6 +289,7 @@ public class ReadyActivity extends Activity {
     static ImageAdapter myImageAdapter;
 
     Button backButton;
+    Button clearButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -304,7 +300,8 @@ public class ReadyActivity extends Activity {
         myImageAdapter = new ImageAdapter(getApplicationContext());
         gridview.setAdapter(myImageAdapter);
 
-        backButton = (Button) findViewById(R.id.backButton);
+        backButton = (Button)findViewById(R.id.backButton);
+        clearButton = (Button)findViewById(R.id.clearButton);
 		/*
 		 * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
 		 * Environment .getExternalStorageDirectory() .getAbsolutePath();
@@ -323,22 +320,22 @@ public class ReadyActivity extends Activity {
 
         gridview.setOnItemClickListener(myOnItemClickListener);
 
-        Button buttonReload = (Button)findViewById(R.id.reload);
-        buttonReload.setOnClickListener(new OnClickListener(){
-
-            @Override
-            public void onClick(View arg0) {
-
-                //Cancel the previous running task, if exist.
-                myAsyncTaskLoadFiles.cancel(true);
-
-                //new another ImageAdapter, to prevent the adapter have
-                //mixed files
-                myImageAdapter = new ImageAdapter(ReadyActivity.this);
-                gridview.setAdapter(myImageAdapter);
-                myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
-                myAsyncTaskLoadFiles.execute();
-            }});
+       // Button buttonReload = (Button)findViewById(R.id.reload);
+//        buttonReload.setOnClickListener(new OnClickListener(){
+//
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                //Cancel the previous running task, if exist.
+//                myAsyncTaskLoadFiles.cancel(true);
+//
+//                //new another ImageAdapter, to prevent the adapter have
+//                //mixed files
+//                myImageAdapter = new ImageAdapter(ReadyActivity.this);
+//                gridview.setAdapter(myImageAdapter);
+//                myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
+//                myAsyncTaskLoadFiles.execute();
+//            }});
 
     }
 
@@ -355,7 +352,7 @@ public class ReadyActivity extends Activity {
             final ArrayList<String> bridgeIDs = new ArrayList<String>();
             final ArrayList<String> bridgeNames = new ArrayList<String>();
             final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
-            final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
+            //final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
             final ArrayList<File> ourFiles = new ArrayList<File>();
 
             ImageUpdateActivity.displayTitle = "";
@@ -374,7 +371,7 @@ public class ReadyActivity extends Activity {
                     bridgeIDs.add(lineArray[1]);
                     bridgeNames.add(lineArray[2]);
                     bridgeDescrtiptions.add(lineArray[3]);
-                    bridgeUserIDs.add(lineArray[4]);
+                    //bridgeUserIDs.add(lineArray[4]);
                     ourFile = new File(lineArray[0]);
                     ourFiles.add(ourFile);
                     Log.d("testing123", "please work..." + filePaths.get(0));
@@ -389,21 +386,62 @@ public class ReadyActivity extends Activity {
                 e.printStackTrace();
             }
 
-
+            Intent i = new Intent(getApplicationContext(), ImageUpdateActivity.class);
+            startActivity(i);
 
 
 //            ImageUpdateActivity.displayTitle = "";
 //            ImageUpdateActivity.displayDescription = "";
-            Intent editIntent = new Intent(getApplicationContext(), ImageUpdateActivity.class);
-            startActivity(editIntent);
+
 
         }
     };
 
     public void backButtonMethod(View v){
-        Intent back = new Intent(getApplicationContext(), NavigateActivity.class);
+        Intent back = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(back);
 
+    }
+
+    public void finishButtonMethod(View v){
+        Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);
+        startActivity(back);
+    }
+
+    public void clearButtonMethod(View v){
+        File sdCard = Environment.getExternalStorageDirectory();
+        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(f, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedWriter fos = new BufferedWriter(fw);
+        try {
+            fos.write("");
+            Log.d("done", "done");
+            fos.close();
+            fw.close();
+        } catch (IOException e) {
+            Log.d("ok", e.toString());
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        finish();
+        startActivity(getIntent());
     }
 
 }

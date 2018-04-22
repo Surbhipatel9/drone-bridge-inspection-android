@@ -263,6 +263,7 @@ public class GridActivity extends Activity {
     static ImageAdapter myImageAdapter;
 
     Button backButton;
+    //Button reloadButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -273,7 +274,7 @@ public class GridActivity extends Activity {
         myImageAdapter = new ImageAdapter(getApplicationContext());
         gridview.setAdapter(myImageAdapter);
 
-        backButton = (Button) findViewById(R.id.backButton);
+        //backButton = (Button) findViewById(R.id.backButton);
 		/*
 		 * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
 		 * Environment .getExternalStorageDirectory() .getAbsolutePath();
@@ -292,22 +293,22 @@ public class GridActivity extends Activity {
 
         gridview.setOnItemClickListener(myOnItemClickListener);
 
-        Button buttonReload = (Button)findViewById(R.id.reload);
-        buttonReload.setOnClickListener(new OnClickListener(){
+        //reloadButton = (Button)findViewById(R.id.reload);
+        //reloadButton.setOnClickListener(new OnClickListener(){
 
-            @Override
-            public void onClick(View arg0) {
-
-                //Cancel the previous running task, if exist.
-                myAsyncTaskLoadFiles.cancel(true);
-
-                //new another ImageAdapter, to prevent the adapter have
-                //mixed files
-                myImageAdapter = new ImageAdapter(GridActivity.this);
-                gridview.setAdapter(myImageAdapter);
-                myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
-                myAsyncTaskLoadFiles.execute();
-            }});
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                //Cancel the previous running task, if exist.
+//                myAsyncTaskLoadFiles.cancel(true);
+//
+//                //new another ImageAdapter, to prevent the adapter have
+//                //mixed files
+//                myImageAdapter = new ImageAdapter(GridActivity.this);
+//                gridview.setAdapter(myImageAdapter);
+//                myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
+//                myAsyncTaskLoadFiles.execute();
+//            }});
 
     }
 
@@ -324,19 +325,21 @@ public class GridActivity extends Activity {
 //            myImageAdapter.notifyDataSetChanged();
             ImageEditActivity.fileLocation = myImageAdapter.itemList.get(position);
             ImageEditActivity.position = position;
+
             Intent editIntent = new Intent(getApplicationContext(), ImageEditActivity.class);
             startActivity(editIntent);
-            Log.d("testing123", "positin... " + position);
-
-            Log.d("testing123", myImageAdapter.itemList.get(position));
-
         }
     };
 
     public void backButtonMethod(View v){
-        Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);
+        Intent back = new Intent(getApplicationContext(), ReadyActivity.class);
         startActivity(back);
 
+    }
+
+    public void goToReady(View v){
+        Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
+        startActivity(i);
     }
 
 }

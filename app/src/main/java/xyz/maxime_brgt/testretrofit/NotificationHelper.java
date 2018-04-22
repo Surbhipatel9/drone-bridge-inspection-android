@@ -42,29 +42,30 @@ public class NotificationHelper {
         mBuilder.setSmallIcon(android.R.drawable.ic_menu_gallery);
         mBuilder.setContentTitle(mContext.get().getString(R.string.notification_success));
 
-        mBuilder.setContentText(response.data.link);
+        //mBuilder.setContentText(response.data.link);
+        mBuilder.setContentText("Picture uploaded");
 
         //mBuilder.setColor(mContext.get().getResources().getColor(R.color.primary));
 
-
-        Intent resultIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(response.data.link));
-        PendingIntent intent = PendingIntent.getActivity(mContext.get(), 0, resultIntent, 0);
-        mBuilder.setContentIntent(intent);
+       // Intent resultIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(response.data.link));
+        //PendingIntent intent = PendingIntent.getActivity(mContext.get(), 0, resultIntent, 0);
+        //mBuilder.setContentIntent(intent);
         mBuilder.setAutoCancel(true);
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND, Uri.parse(response.data.link));
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, response.data.link);
+        //shareIntent.putExtra(Intent.EXTRA_TEXT, response.data.link);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent pIntent = PendingIntent.getActivity(mContext.get(), 0, shareIntent, 0);
-        mBuilder.addAction(new NotificationCompat.Action(R.drawable.abc_ic_menu_share_mtrl_alpha,
-                mContext.get().getString(R.string.notification_share_link), pIntent));
+        //mBuilder.addAction(new NotificationCompat.Action(R.drawable.abc_ic_menu_share_mtrl_alpha,
+               // mContext.get().getString(R.string.notification_share_link), pIntent));
 
         NotificationManager mNotificationManager =
                 (NotificationManager) mContext.get().getSystemService(Context.NOTIFICATION_SERVICE);
 
         mNotificationManager.notify(mContext.get().getString(R.string.app_name).hashCode(), mBuilder.build());
+
     }
 
     public void createFailedUploadNotification() {

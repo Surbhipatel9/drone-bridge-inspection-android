@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     
     public static String ourImageURL = "";
 
-    private String uploadUserName = HomeActivity.enteredUserName;
+    //private String uploadUserName = HomeActivity.enteredUserName;
 
     public static String formattedDate = "";
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }
         */
 
-        uploadAsTextView.setText("Adding images as... " + uploadUserName + " to a bridge with ID of " + BridgeSelectActivity.bridgeID);
+        //uploadAsTextView.setText("Adding images as... " + uploadUserName + " to a bridge with ID of " + BridgeSelectActivity.bridgeID);
 
     }
 
@@ -171,10 +171,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addFilePath(View v) {
-        String bridgeID = BridgeSelectActivity.bridgeID;
+        //String bridgeID = BridgeSelectActivity.bridgeID;
         String bridgeName = name.getText().toString();
         String bridgeDescription = description.getText().toString();
-        String bridgeUserID = HomeActivity.enteredUserName;
+        //String bridgeUserID = HomeActivity.enteredUserName;
         File sdCard = Environment.getExternalStorageDirectory();
         File f = new File(sdCard +  "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
         if (!f.exists()) {
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         BufferedWriter fos = new BufferedWriter(fw);
         String pathToWrite = imagePath;
         try {
-            fos.write(pathToWrite + ", " + bridgeID + ", " + bridgeName + ", " + bridgeDescription + ", " + bridgeUserID + "\n");
+            fos.write(pathToWrite + ", " + bridgeName + ", " + bridgeDescription + ", " + "\n");
             Log.d("done", "done");
             fos.close();
             fw.close();

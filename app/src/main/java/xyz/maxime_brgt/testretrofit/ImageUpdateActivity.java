@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -48,7 +49,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
     public static int position;
     public static String fileLocation = "";
     public static String ourImageURL = "";
-    private String uploadUserName = HomeActivity.enteredUserName;
+    //private String uploadUserName = HomeActivity.enteredUserName;
 
     public static String formattedDate = "";
 
@@ -63,7 +64,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_update);
-        imageView = (ImageView)findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.imageView);
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
@@ -77,7 +78,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
 
         imgFile = new File(fileLocation);
 
-        if(imgFile.exists()){
+        if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             imageView.setImageBitmap(myBitmap);
         }
@@ -154,7 +155,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
 
             Log.d(this.getLocalClassName(), "Before check");
 
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 final List<String> permissionsList = new ArrayList<String>();
                 addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
                 addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -179,12 +180,12 @@ public class ImageUpdateActivity extends AppCompatActivity {
     }
 
     public void addFilePath(View v) {
-        String bridgeID = BridgeSelectActivity.bridgeID;
+        //String bridgeID = BridgeSelectActivity.bridgeID;
         String bridgeName = name.getText().toString();
         String bridgeDescription = description.getText().toString();
-        String bridgeUserID = HomeActivity.enteredUserName;
+        //String bridgeUserID = HomeActivity.enteredUserName;
         File sdCard = Environment.getExternalStorageDirectory();
-        File f = new File(sdCard +  "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
         if (!f.exists()) {
             try {
                 f.createNewFile();
@@ -201,7 +202,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
         BufferedWriter fos = new BufferedWriter(fw);
         String pathToWrite = fileLocation;
         try {
-            fos.write(pathToWrite + ", " + bridgeID + ", " + bridgeName + ", " + bridgeDescription + ", " + bridgeUserID + "\n");
+            fos.write(pathToWrite + ", " + bridgeName + ", " + bridgeDescription + ", " + "\n");
             Log.d("done", "done");
             fos.close();
             fw.close();
@@ -237,8 +238,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case READ_WRITE_EXTERNAL:
-            {
+            case READ_WRITE_EXTERNAL: {
                 Map<String, Integer> perms = new HashMap<String, Integer>();
                 perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
@@ -260,7 +260,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
         }
     }
 
-    public void backButton(View v){
+    public void backButton(View v) {
         Intent goToLoginIntent = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(goToLoginIntent);
     }
