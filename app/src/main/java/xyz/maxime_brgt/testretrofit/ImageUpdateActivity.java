@@ -25,7 +25,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +35,7 @@ import java.util.Map;
 import static xyz.maxime_brgt.testretrofit.Constants.PICK_IMAGE_REQUEST;
 import static xyz.maxime_brgt.testretrofit.Constants.READ_WRITE_EXTERNAL;
 
-public class ImageEditActivity extends AppCompatActivity {
+public class ImageUpdateActivity extends AppCompatActivity {
 
     private File chosenFile;
     private Uri returnUri;
@@ -54,13 +53,16 @@ public class ImageEditActivity extends AppCompatActivity {
     public static String formattedDate = "";
 
     private String imagePath = "";
+
+    public static String displayTitle;
+    public static String displayDescription;
     File imgFile;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_edit);
+        setContentView(R.layout.activity_image_update);
         imageView = (ImageView)findViewById(R.id.imageView);
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.description);
@@ -79,6 +81,9 @@ public class ImageEditActivity extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             imageView.setImageBitmap(myBitmap);
         }
+
+        name.setText(displayTitle);
+        description.setText(displayDescription);
 
 /*
         File sdCard = Environment.getExternalStorageDirectory();
@@ -119,7 +124,7 @@ public class ImageEditActivity extends AppCompatActivity {
         }
         */
 
-        uploadAsTextView.setText("USERID:" + uploadUserName + " BRIDGEID:" + BridgeSelectActivity.bridgeID);
+        //uploadAsTextView.setText("USERID:" + uploadUserName + " BRIDGEID:" + BridgeSelectActivity.bridgeID);
 
     }
 
@@ -155,7 +160,7 @@ public class ImageEditActivity extends AppCompatActivity {
                 addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
                 if (!permissionsList.isEmpty())
-                    ActivityCompat.requestPermissions(ImageEditActivity.this,
+                    ActivityCompat.requestPermissions(ImageUpdateActivity.this,
                             permissionsList.toArray(new String[permissionsList.size()]),
                             READ_WRITE_EXTERNAL);
                 else
@@ -179,17 +184,6 @@ public class ImageEditActivity extends AppCompatActivity {
         String bridgeDescription = description.getText().toString();
         String bridgeUserID = HomeActivity.enteredUserName;
         File sdCard = Environment.getExternalStorageDirectory();
-//        File folder = new File(Environment.getExternalStorageDirectory() +
-//                File.separator + "wvDotDroneFolder");
-//        boolean success = true;
-//        if (!folder.exists()) {
-//            success = folder.mkdirs();
-//        }
-//        if (success) {
-//            Log.d("Apples", "It made the folder.");
-//        } else {
-//            Log.d("Apples", "It didn't make the folder.");
-//        }
         File f = new File(sdCard +  "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
         if (!f.exists()) {
             try {
@@ -226,8 +220,6 @@ public class ImageEditActivity extends AppCompatActivity {
         name.setText("");
         description.setText("");
 
-
-
         //GridActivity.myImageAdapter.remove(position);
 
         Intent goToLoginIntent = new Intent(getApplicationContext(), GridActivity.class);
@@ -254,11 +246,11 @@ public class ImageEditActivity extends AppCompatActivity {
                     perms.put(permissions[i], grantResults[i]);
                 if (perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                         && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(ImageEditActivity.this, "All Permission are granted.", Toast.LENGTH_SHORT)
+                    Toast.makeText(ImageUpdateActivity.this, "All Permission are granted.", Toast.LENGTH_SHORT)
                             .show();
                     getFilePath();
                 } else {
-                    Toast.makeText(ImageEditActivity.this, "Some permissions are denied", Toast.LENGTH_SHORT)
+                    Toast.makeText(ImageUpdateActivity.this, "Some permissions are denied", Toast.LENGTH_SHORT)
                             .show();
                 }
                 return;

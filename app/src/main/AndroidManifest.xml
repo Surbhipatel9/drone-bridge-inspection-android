@@ -17,7 +17,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
+            android:label="Drone Upload App"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +35,10 @@
         <activity
             android:name=".ReadyActivity"
             android:label="@string/title_activity_ready"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ImageUpdateActivity"
+            android:label="@string/title_activity_image_update"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

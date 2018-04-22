@@ -18,6 +18,7 @@
     <string name="backButton">Back</string>
     <string name="nextButton">Next</string>
     <string name="title_activity_navigate">NavigateActivity</string>
+    <string name="saveButton">Save</string>
 
     <string name="toLoginButton">Back</string>
     <string name="toUploadButton">Upload</string>
@@ -32,4 +33,5 @@
 
     <string name="bridgeSelectLabel">Enter Bridge ID for Upload</string>
     <string name="title_activity_ready">ReadyActivity</string>
+    <string name="title_activity_image_update">ImageUpdateActivity</string>
 </resources>

@@ -59,7 +59,6 @@ public class ReadyActivity extends Activity {
         protected Void doInBackground(Void... params) {
 
             String[] lineArray;
-
             ArrayList<String> filePaths = new ArrayList<String>();
             final ArrayList<String> bridgeIDs = new ArrayList<String>();
             final ArrayList<String> bridgeNames = new ArrayList<String>();
@@ -344,23 +343,59 @@ public class ReadyActivity extends Activity {
     }
 
     OnItemClickListener myOnItemClickListener = new OnItemClickListener() {
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            String prompt = "remove " + (String) parent.getItemAtPosition(position);
-//            Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT)
-//                    .show();
+            ImageUpdateActivity.fileLocation = myImageAdapter.itemList.get(position);
+            //Log.d("testing1234", myImageAdapter.itemList.get(position));
+            ImageUpdateActivity.position = position;
 
-//            myImageAdapter.remove(position);
-//            myImageAdapter.notifyDataSetChanged();
-            ImageEditActivity.fileLocation = myImageAdapter.itemList.get(position);
-            ImageEditActivity.position = position;
-            Intent editIntent = new Intent(getApplicationContext(), ImageEditActivity.class);
+            String[] lineArray;
+            ArrayList<String> filePaths = new ArrayList<String>();
+            final ArrayList<String> bridgeIDs = new ArrayList<String>();
+            final ArrayList<String> bridgeNames = new ArrayList<String>();
+            final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
+            final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
+            final ArrayList<File> ourFiles = new ArrayList<File>();
+
+            ImageUpdateActivity.displayTitle = "";
+            ImageUpdateActivity.displayDescription = "";
+
+            File ourFile = null;
+            try {
+                File sdcard = Environment.getExternalStorageDirectory();
+                File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    lineArray = line.split(",");
+                    filePaths.add(lineArray[0]);
+                    bridgeIDs.add(lineArray[1]);
+                    bridgeNames.add(lineArray[2]);
+                    bridgeDescrtiptions.add(lineArray[3]);
+                    bridgeUserIDs.add(lineArray[4]);
+                    ourFile = new File(lineArray[0]);
+                    ourFiles.add(ourFile);
+                    Log.d("testing123", "please work..." + filePaths.get(0));
+
+                    if(ImageUpdateActivity.fileLocation.equals(lineArray[0])){
+                        ImageUpdateActivity.displayTitle = lineArray[2];
+                        ImageUpdateActivity.displayDescription = lineArray[3];
+                    }
+                }
+                br.close() ;
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+//            ImageUpdateActivity.displayTitle = "";
+//            ImageUpdateActivity.displayDescription = "";
+            Intent editIntent = new Intent(getApplicationContext(), ImageUpdateActivity.class);
             startActivity(editIntent);
-            Log.d("testing123", "positin... " + position);
-
-            Log.d("testing123", myImageAdapter.itemList.get(position));
 
         }
     };
