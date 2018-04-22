@@ -177,17 +177,6 @@ public class ImageEditActivity extends AppCompatActivity {
         String bridgeDescription = description.getText().toString();
         //String bridgeUserID = HomeActivity.enteredUserName;
         File sdCard = Environment.getExternalStorageDirectory();
-//        File folder = new File(Environment.getExternalStorageDirectory() +
-//                File.separator + "wvDotDroneFolder");
-//        boolean success = true;
-//        if (!folder.exists()) {
-//            success = folder.mkdirs();
-//        }
-//        if (success) {
-//            Log.d("Apples", "It made the folder.");
-//        } else {
-//            Log.d("Apples", "It didn't make the folder.");
-//        }
         File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
         if (!f.exists()) {
             try {

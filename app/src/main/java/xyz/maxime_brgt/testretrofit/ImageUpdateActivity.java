@@ -22,8 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -45,7 +47,9 @@ public class ImageUpdateActivity extends AppCompatActivity {
     private EditText name;
     private TextView uploadAsTextView;
     private Button uploadButton;
+    private Button removeButton;
 
+    public static int lineNumber = 0;
     public static int position;
     public static String fileLocation = "";
     public static String ourImageURL = "";
@@ -69,7 +73,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
         uploadButton = (Button) findViewById(R.id.uploadButton);
-
+        removeButton = (Button)findViewById(R.id.removeButton);
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formattedDate = df.format(c);
@@ -85,56 +89,6 @@ public class ImageUpdateActivity extends AppCompatActivity {
 
         name.setText(displayTitle);
         description.setText(displayDescription);
-
-/*
-        File sdCard = Environment.getExternalStorageDirectory();
-        Log.d("location", sdCard.getAbsolutePath());
-        Log.e("help", String.valueOf(sdCard.exists()));
-        File f = new File(sdCard + "/test.txt");
-        if(!f.exists()){
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(f, false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedWriter fos = new BufferedWriter(fw);
-        String descriptionInsert = description.getText().toString();
-        String nameInsert = name.getText().toString();
-        try{
-            fos.write("");
-            Log.d("done", "done");
-            fos.close();
-            fw.close();
-        } catch(FileNotFoundException e){
-            Log.d("ok", e.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        */
-
-        //uploadAsTextView.setText("USERID:" + uploadUserName + " BRIDGEID:" + BridgeSelectActivity.bridgeID);
-
-    }
-
-    public void onChoose(View v) {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-
     }
 
     @Override
@@ -177,6 +131,67 @@ public class ImageUpdateActivity extends AppCompatActivity {
         imagePath = filePath;
         if (filePath == null || filePath.isEmpty()) return;
         chosenFile = new File(filePath);
+    }
+
+    public void removeButton(View v){
+
+        File ourFile = null;
+        ArrayList<String> ourFileList = new ArrayList<String>();
+        try {
+            File sdcard = Environment.getExternalStorageDirectory();
+            File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                Log.d("Peaches newfile", line);
+                ourFileList.add(line);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(String path : ourFileList){
+            ourFileList.remove(lineNumber -1);
+        }
+
+
+        File sdCard = Environment.getExternalStorageDirectory();
+        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(f, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedWriter fos = new BufferedWriter(fw);
+        for(String line : ourFileList) {
+            try {
+                fos.write(line);
+                Log.d("done", "done");
+                fos.close();
+                fw.close();
+            } catch (IOException e) {
+                Log.d("ok", e.toString());
+            } finally {
+                try {
+                    fw.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
+        startActivity(i);
     }
 
     public void addFilePath(View v) {

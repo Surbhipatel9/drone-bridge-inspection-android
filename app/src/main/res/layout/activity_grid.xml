@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@android:color/transparent"
-            android:text="Recent"/>
+            android:text="@string/recentButton" />
 
         <Button
             android:id="@+id/reload"
@@ -26,7 +26,7 @@
             android:layout_weight="0.5"
             android:background="@android:color/holo_blue_dark"
             android:onClick="goToReady"
-            android:text="@string/viewReadyButton" />
+            android:text="@string/readyButton" />
     </LinearLayout>
 
     <GridView

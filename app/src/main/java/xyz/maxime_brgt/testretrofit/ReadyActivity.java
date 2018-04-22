@@ -72,7 +72,7 @@ public class ReadyActivity extends Activity {
             File ourFile = null;
             try {
                 File sdcard = Environment.getExternalStorageDirectory();
-                File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -88,13 +88,13 @@ public class ReadyActivity extends Activity {
                     ourFiles.add(ourFile);
                     Log.d("testing123", "please work..." + filePaths.get(0));
                 }
-                br.close() ;
-            }catch (IOException e) {
+                br.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
             File[] files = ourFiles.toArray(new File[ourFiles.size()]);
-            for(int i = 0; i < files.length; i++)
+            for (int i = 0; i < files.length; i++)
                 Log.d("Oranges", files[i].toString());
 
             Arrays.sort(files);
@@ -202,7 +202,7 @@ public class ReadyActivity extends Activity {
             } else {
                 //imageView = (ImageView) convertView;
                 holder = (ViewHolder) convertView.getTag();
-                ((ImageView)convertView).setImageBitmap(null);
+                ((ImageView) convertView).setImageBitmap(null);
             }
 
             //Bitmap bm = decodeSampledBitmapFromUri(itemList.get(position), 220, 220);
@@ -291,7 +291,7 @@ public class ReadyActivity extends Activity {
     Button backButton;
     Button viewRecentButton;
 
-    public void viewRecentButtonMethod (View v){
+    public void viewRecentButtonMethod(View v) {
         Intent i = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(i);
     }
@@ -305,9 +305,9 @@ public class ReadyActivity extends Activity {
         myImageAdapter = new ImageAdapter(getApplicationContext());
         gridview.setAdapter(myImageAdapter);
 
-        backButton = (Button)findViewById(R.id.backButton);
-		/*
-		 * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
+        backButton = (Button) findViewById(R.id.backButton);
+        /*
+         * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
 		 * Environment .getExternalStorageDirectory() .getAbsolutePath();
 		 *
 		 * String targetPath = ExternalStorageDirectoryPath + "/test/";
@@ -324,7 +324,7 @@ public class ReadyActivity extends Activity {
 
         gridview.setOnItemClickListener(myOnItemClickListener);
 
-       // Button buttonReload = (Button)findViewById(R.id.reload);
+        // Button buttonReload = (Button)findViewById(R.id.reload);
 //        buttonReload.setOnClickListener(new OnClickListener(){
 //
 //            @Override
@@ -363,30 +363,31 @@ public class ReadyActivity extends Activity {
             ImageUpdateActivity.displayDescription = "";
 
             File ourFile = null;
+            int lineNumber = 1;
             try {
                 File sdcard = Environment.getExternalStorageDirectory();
-                File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
                 while ((line = br.readLine()) != null) {
                     lineArray = line.split(",");
                     filePaths.add(lineArray[0]);
-                    bridgeIDs.add(lineArray[1]);
-                    bridgeNames.add(lineArray[2]);
-                    bridgeDescrtiptions.add(lineArray[3]);
+                    bridgeNames.add(lineArray[1]);
+                    bridgeDescrtiptions.add(lineArray[2]);
                     //bridgeUserIDs.add(lineArray[4]);
                     ourFile = new File(lineArray[0]);
                     ourFiles.add(ourFile);
-                    Log.d("testing123", "please work..." + filePaths.get(0));
-
-                    if(ImageUpdateActivity.fileLocation.equals(lineArray[0])){
-                        ImageUpdateActivity.displayTitle = lineArray[2];
-                        ImageUpdateActivity.displayDescription = lineArray[3];
+                    if (ImageUpdateActivity.fileLocation.equals(lineArray[0])) {
+                        ImageUpdateActivity.displayTitle = lineArray[1];
+                        ImageUpdateActivity.displayDescription = lineArray[2];
+                        ImageUpdateActivity.lineNumber = lineNumber;
                     }
+
+                    lineNumber++;
                 }
-                br.close() ;
-            }catch (IOException e) {
+                br.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -401,18 +402,36 @@ public class ReadyActivity extends Activity {
         }
     };
 
-    public void backButtonMethod(View v){
+    public void backButtonMethod(View v) {
         Intent back = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(back);
 
     }
 
-    public void finishButtonMethod(View v){
-        Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);
-        startActivity(back);
+    public void finishButtonMethod(View v) {
+        int count = 0;
+        try {
+            File sdcard = Environment.getExternalStorageDirectory();
+            File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                count++;
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (count != 0) {
+            Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);
+            startActivity(back);
+        } else {
+            Toast.makeText(ReadyActivity.this, "You ready queue is empty", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void clearButtonMethod(View v){
+    public void clearButtonMethod(View v) {
         File sdCard = Environment.getExternalStorageDirectory();
         File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
         if (!f.exists()) {

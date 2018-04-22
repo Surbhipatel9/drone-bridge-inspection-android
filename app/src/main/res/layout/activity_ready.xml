@@ -30,24 +30,35 @@
 
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/gridview"
-        android:layout_width="fill_parent"
-        android:layout_height="472dp"
-        android:columnWidth="110dp"
-        android:gravity="center"
-        android:horizontalSpacing="30dp"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" />
-
-    <Button
-        android:id="@+id/reload"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_red_dark"
-        android:onClick="finishButtonMethod"
-        android:text="@string/finishButton"
-        android:textColor="@android:color/background_light" />
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_above="@id/reload"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:columnWidth="110dp"
+            android:gravity="center"
+            android:horizontalSpacing="30dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
+
+        <Button
+            android:id="@+id/reload"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/holo_red_dark"
+            android:onClick="finishButtonMethod"
+            android:text="@string/finishButton"
+            android:textColor="@android:color/background_light" />
+
+    </RelativeLayout>
 
 </LinearLayout>

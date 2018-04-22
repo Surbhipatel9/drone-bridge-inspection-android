@@ -34,8 +34,8 @@
     <string name="recentLabel">Your Recently Uploaded</string>
     <string name="bridgeHint">Bridge ID</string>
     <string name="removeButton">Remove</string>
-    <string name="readyButton">View Ready</string>
-    <string name="recentButton">Recent</string>
+    <string name="readyButton">Ready for Upload</string>
+    <string name="recentButton">Recent Photos</string>
 
     <string name="bridgeSelectLabel">Enter Associated UserID</string>
     <string name="title_activity_ready">ReadyActivity</string>

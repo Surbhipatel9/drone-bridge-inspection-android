@@ -50,10 +50,10 @@ public class BridgeSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_select);
 
-        backButton = (Button)findViewById(R.id.backButton);
-        nextButton = (Button)findViewById(R.id.nextButton);
+        backButton = (Button) findViewById(R.id.backButton);
+        nextButton = (Button) findViewById(R.id.nextButton);
         //bridgeIDEditText = (EditText)findViewById(R.id.bridgeIDEditText);
-        userIDEditText = (EditText)findViewById(R.id.userIDEditText);
+        userIDEditText = (EditText) findViewById(R.id.userIDEditText);
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -66,27 +66,25 @@ public class BridgeSelectActivity extends AppCompatActivity {
         int count = 0;
         try {
             File sdcard = Environment.getExternalStorageDirectory();
-            File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+            File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             while ((line = br.readLine()) != null) {
                 count++;
             }
-            br.close() ;
-        }catch (IOException e) {
+            br.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         Log.d("penis", Integer.toString(count));
 
 
+        userID = userIDEditText.getText().toString();
 
-          userID = userIDEditText.getText().toString();
-
-        if(userID == null || userID.equals("") /* || !rowValues.contains(Integer.parseInt(userID) )*/){
+        if (userID == null || userID.equals("") /* || !rowValues.contains(Integer.parseInt(userID) )*/) {
             Toast.makeText(BridgeSelectActivity.this, "Please enter a user ID", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             String[] lineArray;
 
             ArrayList<String> filePaths = new ArrayList<String>();
@@ -97,7 +95,7 @@ public class BridgeSelectActivity extends AppCompatActivity {
             File ourFile = null;
             try {
                 File sdcard = Environment.getExternalStorageDirectory();
-                File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -110,8 +108,8 @@ public class BridgeSelectActivity extends AppCompatActivity {
                     ourFile = new File(lineArray[0]);
                     files.add(ourFile);
                 }
-                br.close() ;
-            }catch (IOException e) {
+                br.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -121,7 +119,7 @@ public class BridgeSelectActivity extends AppCompatActivity {
 //                return;
 //            }
 
-            for(String item : filePaths) {
+            for (String item : filePaths) {
                 final NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());
                 //notificationHelper.createUploadingNotification();
                 ImgurService imgurService = ImgurService.retrofit.create(ImgurService.class);
@@ -198,7 +196,6 @@ public class BridgeSelectActivity extends AppCompatActivity {
             }
 
 
-
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
 
@@ -206,7 +203,8 @@ public class BridgeSelectActivity extends AppCompatActivity {
 
 //            Intent nextIntent = new Intent(getApplicationContext(), GridActivity.class);
 //            startActivity(nextIntent);
-        }
+    }
+
 
     public void backButtonMethod(View v){
         Intent backIntent = new Intent(getApplicationContext(), ReadyActivity.class);
