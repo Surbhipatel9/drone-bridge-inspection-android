@@ -289,7 +289,12 @@ public class ReadyActivity extends Activity {
     static ImageAdapter myImageAdapter;
 
     Button backButton;
-    Button clearButton;
+    Button viewRecentButton;
+
+    public void viewRecentButtonMethod (View v){
+        Intent i = new Intent(getApplicationContext(), GridActivity.class);
+        startActivity(i);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -301,7 +306,6 @@ public class ReadyActivity extends Activity {
         gridview.setAdapter(myImageAdapter);
 
         backButton = (Button)findViewById(R.id.backButton);
-        clearButton = (Button)findViewById(R.id.clearButton);
 		/*
 		 * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
 		 * Environment .getExternalStorageDirectory() .getAbsolutePath();

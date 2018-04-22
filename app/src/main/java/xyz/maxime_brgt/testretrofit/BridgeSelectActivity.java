@@ -62,15 +62,25 @@ public class BridgeSelectActivity extends AppCompatActivity {
 
     public void nextButtonMethod(View v) throws SQLException {
 
+        //File ourFile = null;
+        int count = 0;
+        try {
+            File sdcard = Environment.getExternalStorageDirectory();
+            File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                count++;
+            }
+            br.close() ;
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
-//        ResultSet userResultSet = ConnectionClass.selectedUserIDQuery();
-//        ArrayList<Integer> rowValues = new ArrayList<Integer>();
-//        while (userResultSet.next()) {
-//            rowValues.add(Integer.valueOf(userResultSet.getString(1)));
-//        }
-//
-//
-//        //bridgeID = bridgeIDEditText.getText().toString();
+        Log.d("penis", Integer.toString(count));
+
+
+
           userID = userIDEditText.getText().toString();
 
         if(userID == null || userID.equals("") /* || !rowValues.contains(Integer.parseInt(userID) )*/){
@@ -143,10 +153,7 @@ public class BridgeSelectActivity extends AppCompatActivity {
                             //Log.d("test123", droneImageURL);
                             Toast.makeText(BridgeSelectActivity.this, "Upload successful!", Toast.LENGTH_LONG).show();
 
-
                         }
-
-
                     }
 
                     @Override
@@ -157,6 +164,37 @@ public class BridgeSelectActivity extends AppCompatActivity {
                         t.printStackTrace();
                     }
                 });
+            }
+
+            File sdCard = Environment.getExternalStorageDirectory();
+            File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+            if (!f.exists()) {
+                try {
+                    f.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(f, false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BufferedWriter fos = new BufferedWriter(fw);
+            try {
+                fos.write("");
+                Log.d("done", "done");
+                fos.close();
+                fw.close();
+            } catch (IOException e) {
+                Log.d("ok", e.toString());
+            } finally {
+                try {
+                    fw.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
 
 

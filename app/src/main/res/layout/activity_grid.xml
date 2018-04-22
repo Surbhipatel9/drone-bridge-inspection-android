@@ -4,13 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/reload"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
-        android:onClick="goToReady"
-        android:text="@string/viewReadyButton" />
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@android:color/transparent"
+            android:text="Recent"/>
+
+        <Button
+            android:id="@+id/reload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@android:color/holo_blue_dark"
+            android:onClick="goToReady"
+            android:text="@string/viewReadyButton" />
+    </LinearLayout>
 
     <GridView
         android:id="@+id/gridview"

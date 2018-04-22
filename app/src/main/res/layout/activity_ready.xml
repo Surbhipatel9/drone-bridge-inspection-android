@@ -8,43 +8,46 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp">
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="194dp"
+            android:layout_width="266dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:background="@android:color/holo_blue_light"
             android:onClick="backButtonMethod"
-            android:text="@string/toLoginButton" />
+            android:text="@string/recentButton" />
 
         <Button
-            android:id="@+id/clearButton"
+            android:id="@+id/viewReadyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_dark"
-            android:onClick="clearButtonMethod"
-            android:text="@string/clearButton"
-            android:textColor="@android:color/background_light" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/viewReadyButton" />
 
-    <Button
-        android:id="@+id/reload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
-        android:onClick="finishButtonMethod"
-        android:text="@string/finishButton" />
+    </LinearLayout>
 
     <GridView
         android:id="@+id/gridview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="472dp"
         android:columnWidth="110dp"
         android:gravity="center"
         android:horizontalSpacing="30dp"
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
+
+    <Button
+        android:id="@+id/reload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:onClick="finishButtonMethod"
+        android:text="@string/finishButton"
+        android:textColor="@android:color/background_light" />
 
 </LinearLayout>

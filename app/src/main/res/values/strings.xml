@@ -35,6 +35,7 @@
     <string name="bridgeHint">Bridge ID</string>
     <string name="removeButton">Remove</string>
     <string name="readyButton">View Ready</string>
+    <string name="recentButton">Recent</string>
 
     <string name="bridgeSelectLabel">Enter Associated UserID</string>
     <string name="title_activity_ready">ReadyActivity</string>
