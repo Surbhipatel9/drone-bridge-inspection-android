@@ -4,22 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/backButton"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
-        android:onClick="backButtonMethod"
-        android:text="@string/toLoginButton" />
+        android:layout_height="45dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/clearButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_red_dark"
-        android:onClick="clearButtonMethod"
-        android:text="@string/clearButton"
-        android:textColor="@android:color/background_light" />
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="194dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:onClick="backButtonMethod"
+            android:text="@string/toLoginButton" />
+
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:onClick="clearButtonMethod"
+            android:text="@string/clearButton"
+            android:textColor="@android:color/background_light" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/reload"
@@ -34,9 +41,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:columnWidth="110dp"
-        android:gravity="left"
+        android:gravity="center"
         android:horizontalSpacing="30dp"
-        android:numColumns="1"
+        android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
 

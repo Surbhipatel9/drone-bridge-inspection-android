@@ -36,7 +36,7 @@
     <string name="removeButton">Remove</string>
     <string name="readyButton">View Ready</string>
 
-    <string name="bridgeSelectLabel">Enter Remaining Information</string>
+    <string name="bridgeSelectLabel">Enter Associated UserID</string>
     <string name="title_activity_ready">ReadyActivity</string>
     <string name="title_activity_image_update">ImageUpdateActivity</string>
 </resources>

@@ -1,7 +1,10 @@
 package xyz.maxime_brgt.testretrofit;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +19,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -29,12 +36,15 @@ public class BridgeSelectActivity extends AppCompatActivity {
 
     Button backButton;
     Button nextButton;
-    EditText bridgeIDEditText;
+    //EditText bridgeIDEditText;
     EditText userIDEditText;
 
     public String userID = "";
     public String bridgeID = "";
 
+    String formattedDate = "";
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +52,28 @@ public class BridgeSelectActivity extends AppCompatActivity {
 
         backButton = (Button)findViewById(R.id.backButton);
         nextButton = (Button)findViewById(R.id.nextButton);
-        bridgeIDEditText = (EditText)findViewById(R.id.bridgeIDEditText);
+        //bridgeIDEditText = (EditText)findViewById(R.id.bridgeIDEditText);
         userIDEditText = (EditText)findViewById(R.id.userIDEditText);
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        formattedDate = df.format(c);
     }
 
-    public void nextButtonMethod(View v){
-        bridgeID = bridgeIDEditText.getText().toString();
-        userID = userIDEditText.getText().toString();
+    public void nextButtonMethod(View v) throws SQLException {
 
-        if(bridgeID == null || bridgeID.equals("")) {
-            Toast.makeText(BridgeSelectActivity.this, "Please enter a bridge ID", Toast.LENGTH_SHORT).show();
-            Log.d("ok", bridgeIDEditText.toString());
-        }
-        if(userID == null || userID.equals("")){
+
+//        ResultSet userResultSet = ConnectionClass.selectedUserIDQuery();
+//        ArrayList<Integer> rowValues = new ArrayList<Integer>();
+//        while (userResultSet.next()) {
+//            rowValues.add(Integer.valueOf(userResultSet.getString(1)));
+//        }
+//
+//
+//        //bridgeID = bridgeIDEditText.getText().toString();
+          userID = userIDEditText.getText().toString();
+
+        if(userID == null || userID.equals("") /* || !rowValues.contains(Integer.parseInt(userID) )*/){
             Toast.makeText(BridgeSelectActivity.this, "Please enter a user ID", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -116,13 +135,14 @@ public class BridgeSelectActivity extends AppCompatActivity {
                             return;
                         }
                         if (response.isSuccessful()) {
-                            Toast.makeText(BridgeSelectActivity.this, "Upload successful!", Toast.LENGTH_SHORT)
-                                    .show();
                             Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
                             //notificationHelper.createUploadedNotification(response.body());
                             String droneImageURL = "http://imgur.com/" + response.body().data.id;
-                            ConnectionClass.insertPhotoQuery();
-                            Log.d("test123", droneImageURL);
+                            int userIDInt = Integer.parseInt(userID);
+                            ConnectionClass.insertPhotoQuery(userIDInt, formattedDate, bridgeNames.get(spot), bridgeDescrtiptions.get(spot), droneImageURL + ".jpg");
+                            //Log.d("test123", droneImageURL);
+                            Toast.makeText(BridgeSelectActivity.this, "Upload successful!", Toast.LENGTH_LONG).show();
+
 
                         }
 

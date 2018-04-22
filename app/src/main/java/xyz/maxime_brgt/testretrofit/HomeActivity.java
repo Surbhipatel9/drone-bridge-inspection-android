@@ -35,9 +35,6 @@ public class HomeActivity extends AppCompatActivity {
     public void loginButton(View v) {
         Intent goToImageIntent = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(goToImageIntent);
-
-       // ConnectionClass.insertPhotoQuery();
-
     }
 
 }
