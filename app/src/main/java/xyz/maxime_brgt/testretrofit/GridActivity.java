@@ -62,7 +62,7 @@ public class GridActivity extends Activity {
             ArrayList<File> list = new ArrayList<>();
             for(File item : toProcess)
             {
-                if(item.getName().endsWith(".jpg"))
+                if(item.getName().endsWith(".jpg") && !blacklist.contains(item.getAbsolutePath()))
                 {
                     Log.d("Oranges", "Added:" + item.getName());
                     list.add(item);
@@ -266,7 +266,7 @@ public class GridActivity extends Activity {
     static ImageAdapter myImageAdapter;
 
     Button backButton;
-    //Button reloadButton;
+    Button removeButton;
 
     private ArrayList<String> blacklist = new ArrayList<String>();
 
@@ -274,6 +274,7 @@ public class GridActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
+        removeButton = (Button)findViewById(R.id.removeButton);
 
         try {
             File sdcard = Environment.getExternalStorageDirectory();

@@ -5,6 +5,10 @@
     <color name="colorAccent">#1bb76e</color>
 
     <color name="backgroundColor">#08B2F7</color>
+    <color name="recentBackground">#FFFDD0</color>
+    <color name="queueBackground">#FFFFF0</color>
 
     <color name="mainColor">#1300fa</color>
+
+    <color name ="yepp">#000000</color>
 </resources>

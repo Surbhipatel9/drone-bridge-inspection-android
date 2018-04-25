@@ -2,33 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/recentBackground">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:weightSum="2">
 
         <Button
             android:id="@+id/display"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="@string/recentButton"
-            android:textColor="@color/mainColor" />
+            android:text="Drone Gallery"
+            android:textColor="@color/yepp" />
 
         <Button
             android:id="@+id/reload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="@color/mainColor"
+            android:layout_weight="1"
+            android:background="@color/queueBackground"
             android:onClick="goToReady"
             android:text="@string/readyButton"
-            android:textColor="@android:color/holo_orange_light" />
+            android:textColor="@color/yepp" />
     </LinearLayout>
 
     <GridView
@@ -37,7 +39,7 @@
         android:layout_height="wrap_content"
         android:columnWidth="110dp"
         android:gravity="center"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="30dp"
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />

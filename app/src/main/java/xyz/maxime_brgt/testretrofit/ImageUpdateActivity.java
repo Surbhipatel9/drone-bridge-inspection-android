@@ -74,7 +74,8 @@ public class ImageUpdateActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
         //uploadButton = (Button) findViewById(R.id.uploadButton);
-        //removeButton = (Button)findViewById(R.id.removeButton);
+        removeButton = (Button)findViewById(R.id.removeButton);
+        removeButton.setOnClickListener(removeListenter);
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formattedDate = df.format(c);
@@ -90,7 +91,51 @@ public class ImageUpdateActivity extends AppCompatActivity {
 
         name.setText(displayTitle);
         description.setText(displayDescription);
+
+
     }
+
+    private View.OnClickListener removeListenter = new View.OnClickListener() {
+        public void onClick(View v) {
+            ReadyActivity.ourLines.remove(lineNumber - 1);
+            File sdCard = Environment.getExternalStorageDirectory();
+            File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+            if (!f.exists()) {
+                try {
+                    f.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(f, false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BufferedWriter fos = new BufferedWriter(fw);
+            for(String x : ReadyActivity.ourLines) {
+                try {
+                    fos.write(x);
+                    Log.d("done", "done");
+                    fos.close();
+                    fw.close();
+                } catch (IOException e) {
+                    Log.d("ok", e.toString());
+                } finally {
+                    try {
+                        fw.close();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+
+            Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
+            startActivity(i);
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -132,48 +177,6 @@ public class ImageUpdateActivity extends AppCompatActivity {
         imagePath = filePath;
         if (filePath == null || filePath.isEmpty()) return;
         chosenFile = new File(filePath);
-    }
-
-    public void removeButton(View v) throws IOException{
-
-        String bridgeName = name.getText().toString();
-        String bridgeDescription = description.getText().toString();
-        File sdCard = Environment.getExternalStorageDirectory();
-        File inputFile = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-        if (!inputFile.exists()) {
-            try {
-                inputFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        File tempFile = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePathsTemp" + ".txt");
-
-        BufferedReader reader = null;
-        BufferedWriter writer = null;
-        try {
-            reader = new BufferedReader(new FileReader(inputFile));
-            writer = new BufferedWriter(new FileWriter(tempFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String lineToRemove = fileLocation + ", " + bridgeName + ", " + bridgeDescription + System.getProperty("line.seperator");
-        String currentLine;
-
-        while((currentLine = reader.readLine()) != null) {
-            // trim newline when comparing with lineToRemove
-            if(currentLine.equals(lineToRemove)) continue;
-            writer.write(currentLine + System.getProperty("line.separator"));
-        }
-        writer.close();
-        reader.close();
-        boolean successful = tempFile.renameTo(inputFile);
-        Log.d("Peaches", "File was saved? " + successful);
-
-        Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
-        startActivity(i);
     }
 
     public void addFilePath(View v) {
@@ -223,7 +226,6 @@ public class ImageUpdateActivity extends AppCompatActivity {
         Intent goToLoginIntent = new Intent(getApplicationContext(), GridActivity.class);
         startActivity(goToLoginIntent);
     }
-
 
     private void addPermission(List<String> permissionsList, String permission) {
         if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {

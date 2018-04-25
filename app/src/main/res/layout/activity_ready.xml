@@ -2,24 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/queueBackground">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:weightSum="2">
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="266dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="@color/mainColor"
+            android:layout_weight="1"
+            android:background="@color/recentBackground"
             android:onClick="backButtonMethod"
-            android:text="@string/recentButton"
-            android:textColor="@android:color/background_light" />
+            android:text="Drone Gallery"
+            android:textColor="@color/yepp" />
 
         <Button
             android:id="@+id/viewReadyButton"
@@ -27,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="@string/viewReadyButton"
-            android:textColor="@color/mainColor" />
+            android:text="Ready for Upload"
+            android:textColor="@color/yepp" />
 
     </LinearLayout>
 
@@ -39,7 +41,7 @@
         <GridView
             android:id="@+id/gridview"
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_above="@id/reload"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -58,7 +60,7 @@
             android:layout_alignParentBottom="true"
             android:background="@android:color/holo_red_dark"
             android:onClick="finishButtonMethod"
-            android:text="@string/finishButton"
+            android:text="Upload"
             android:textColor="@android:color/background_light" />
 
     </RelativeLayout>

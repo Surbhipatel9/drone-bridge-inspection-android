@@ -36,6 +36,8 @@ public class ReadyActivity extends Activity {
 
     AsyncTaskLoadFiles myAsyncTaskLoadFiles;
 
+    public static ArrayList<String> ourLines;
+
     public class AsyncTaskLoadFiles extends AsyncTask<Void, String, Void> {
 
         File targetDirector;
@@ -296,6 +298,8 @@ public class ReadyActivity extends Activity {
         startActivity(i);
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -304,7 +308,7 @@ public class ReadyActivity extends Activity {
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         myImageAdapter = new ImageAdapter(getApplicationContext());
         gridview.setAdapter(myImageAdapter);
-
+        ourLines = new ArrayList<String>();
         backButton = (Button) findViewById(R.id.backButton);
         /*
          * Move to asyncTaskLoadFiles String ExternalStorageDirectoryPath =
@@ -353,12 +357,8 @@ public class ReadyActivity extends Activity {
 
             String[] lineArray;
             ArrayList<String> filePaths = new ArrayList<String>();
-            final ArrayList<String> bridgeIDs = new ArrayList<String>();
             final ArrayList<String> bridgeNames = new ArrayList<String>();
             final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
-            //final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
-            final ArrayList<File> ourFiles = new ArrayList<File>();
-
             ImageUpdateActivity.displayTitle = "";
             ImageUpdateActivity.displayDescription = "";
 
@@ -375,15 +375,14 @@ public class ReadyActivity extends Activity {
                     filePaths.add(lineArray[0]);
                     bridgeNames.add(lineArray[1]);
                     bridgeDescrtiptions.add(lineArray[2]);
-                    //bridgeUserIDs.add(lineArray[4]);
-                    ourFile = new File(lineArray[0]);
-                    ourFiles.add(ourFile);
+                    //bridgeUserIDs.add(lineArray[
                     if (ImageUpdateActivity.fileLocation.equals(lineArray[0])) {
                         ImageUpdateActivity.displayTitle = lineArray[1];
                         ImageUpdateActivity.displayDescription = lineArray[2];
                         ImageUpdateActivity.lineNumber = lineNumber;
+                        ourLines.add(line);
                     }
-
+                    ourLines.add(line);
                     lineNumber++;
                 }
                 br.close();
