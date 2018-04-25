@@ -118,6 +118,7 @@ public class BridgeSelectActivity extends AppCompatActivity {
 //                        .show();
 //                return;
 //            }
+            HomeActivity.uploadBoolean = true;
 
             for (String item : filePaths) {
                 final NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());

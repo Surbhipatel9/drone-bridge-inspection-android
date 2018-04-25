@@ -1,17 +1,20 @@
 package xyz.maxime_brgt.testretrofit;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-        import android.os.Bundle;
-        import android.os.Environment;
-        import android.app.Activity;
-        import android.content.Context;
-        import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
         import android.graphics.BitmapFactory;
         import android.util.Log;
         import android.view.View;
@@ -265,10 +268,28 @@ public class GridActivity extends Activity {
     Button backButton;
     //Button reloadButton;
 
+    private ArrayList<String> blacklist = new ArrayList<String>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
+
+        try {
+            File sdcard = Environment.getExternalStorageDirectory();
+            File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
+
+            String[] lineArray;
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                lineArray = line.split(",");
+                blacklist.add(lineArray[0]);
+            }
+            br.close() ;
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         myImageAdapter = new ImageAdapter(getApplicationContext());

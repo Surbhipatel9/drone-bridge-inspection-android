@@ -21,10 +21,9 @@
     <string name="saveButton">Save</string>
     <string name="continueButton">Continue</string>
     <string name="viewReadyButton">View Ready</string>
-    <string name="finishButton">Finish</string>
+    <string name="finishButton">Next</string>
     <string name="clearButton">Clear</string>
     <string name="reloadButton">Reload</string>
-
     <string name="toLoginButton">Back</string>
     <string name="toUploadButton">Upload</string>
     <string name="addImageButton">Add Images</string>
@@ -36,6 +35,7 @@
     <string name="removeButton">Remove</string>
     <string name="readyButton">Ready for Upload</string>
     <string name="recentButton">Recent Photos</string>
+    <string name="updateLabel">Photo Information</string>
 
     <string name="bridgeSelectLabel">Enter Associated UserID</string>
     <string name="title_activity_ready">ReadyActivity</string>

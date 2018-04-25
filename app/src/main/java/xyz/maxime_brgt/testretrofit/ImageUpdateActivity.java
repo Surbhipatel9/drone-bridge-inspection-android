@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -72,8 +73,8 @@ public class ImageUpdateActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
-        uploadButton = (Button) findViewById(R.id.uploadButton);
-        removeButton = (Button)findViewById(R.id.removeButton);
+        //uploadButton = (Button) findViewById(R.id.uploadButton);
+        //removeButton = (Button)findViewById(R.id.removeButton);
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formattedDate = df.format(c);
@@ -133,62 +134,43 @@ public class ImageUpdateActivity extends AppCompatActivity {
         chosenFile = new File(filePath);
     }
 
-    public void removeButton(View v){
+    public void removeButton(View v) throws IOException{
 
-        File ourFile = null;
-        ArrayList<String> ourFileList = new ArrayList<String>();
-        try {
-            File sdcard = Environment.getExternalStorageDirectory();
-            File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
-
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = br.readLine()) != null) {
-                Log.d("Peaches newfile", line);
-                ourFileList.add(line);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for(String path : ourFileList){
-            ourFileList.remove(lineNumber -1);
-        }
-
-
+        String bridgeName = name.getText().toString();
+        String bridgeDescription = description.getText().toString();
         File sdCard = Environment.getExternalStorageDirectory();
-        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-        if (!f.exists()) {
+        File inputFile = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+        if (!inputFile.exists()) {
             try {
-                f.createNewFile();
+                inputFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        FileWriter fw = null;
+
+        File tempFile = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePathsTemp" + ".txt");
+
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
         try {
-            fw = new FileWriter(f, false);
-        } catch (IOException e) {
+            reader = new BufferedReader(new FileReader(inputFile));
+            writer = new BufferedWriter(new FileWriter(tempFile));
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        BufferedWriter fos = new BufferedWriter(fw);
-        for(String line : ourFileList) {
-            try {
-                fos.write(line);
-                Log.d("done", "done");
-                fos.close();
-                fw.close();
-            } catch (IOException e) {
-                Log.d("ok", e.toString());
-            } finally {
-                try {
-                    fw.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
+
+        String lineToRemove = fileLocation + ", " + bridgeName + ", " + bridgeDescription + System.getProperty("line.seperator");
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+            if(currentLine.equals(lineToRemove)) continue;
+            writer.write(currentLine + System.getProperty("line.separator"));
         }
+        writer.close();
+        reader.close();
+        boolean successful = tempFile.renameTo(inputFile);
+        Log.d("Peaches", "File was saved? " + successful);
 
         Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
         startActivity(i);
@@ -276,7 +258,7 @@ public class ImageUpdateActivity extends AppCompatActivity {
     }
 
     public void backButton(View v) {
-        Intent goToLoginIntent = new Intent(getApplicationContext(), GridActivity.class);
+        Intent goToLoginIntent = new Intent(getApplicationContext(), ReadyActivity.class);
         startActivity(goToLoginIntent);
     }
 }

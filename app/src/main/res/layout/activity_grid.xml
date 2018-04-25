@@ -17,16 +17,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@android:color/transparent"
-            android:text="@string/recentButton" />
+            android:text="@string/recentButton"
+            android:textColor="@color/mainColor" />
 
         <Button
             android:id="@+id/reload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/mainColor"
             android:onClick="goToReady"
-            android:text="@string/readyButton" />
+            android:text="@string/readyButton"
+            android:textColor="@android:color/holo_orange_light" />
     </LinearLayout>
 
     <GridView

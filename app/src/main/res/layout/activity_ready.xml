@@ -16,9 +16,10 @@
             android:layout_width="266dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/mainColor"
             android:onClick="backButtonMethod"
-            android:text="@string/recentButton" />
+            android:text="@string/recentButton"
+            android:textColor="@android:color/background_light" />
 
         <Button
             android:id="@+id/viewReadyButton"
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="@string/viewReadyButton" />
+            android:text="@string/viewReadyButton"
+            android:textColor="@color/mainColor" />
 
     </LinearLayout>
 
