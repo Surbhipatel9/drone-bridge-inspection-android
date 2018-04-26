@@ -97,6 +97,9 @@ public class ImageUpdateActivity extends AppCompatActivity {
 
     private View.OnClickListener removeListenter = new View.OnClickListener() {
         public void onClick(View v) {
+//            for(String line : ReadyActivity.ourLines){
+//                Log.d("ourLines", line);
+//            }
             ReadyActivity.ourLines.remove(lineNumber - 1);
             File sdCard = Environment.getExternalStorageDirectory();
             File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Nate\AndroidStudioProjects\imgur-upload-retrofit-2-master\imgur-upload.iml" filepath="C:\Users\Nate\AndroidStudioProjects\imgur-upload-retrofit-2-master\imgur-upload.iml" />
       <module fileurl="file://$PROJECT_DIR$/imgur-upload-retrofit-2-master.iml" filepath="$PROJECT_DIR$/imgur-upload-retrofit-2-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtds-1.2.7/jtds-1.2.7.iml" filepath="$PROJECT_DIR$/jtds-1.2.7/jtds-1.2.7.iml" />
       <module fileurl="file://$PROJECT_DIR$/mysql-connector-java-8.0.11/mysql-connector-java-8.0.11.iml" filepath="$PROJECT_DIR$/mysql-connector-java-8.0.11/mysql-connector-java-8.0.11.iml" />
