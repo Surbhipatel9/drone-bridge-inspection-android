@@ -47,7 +47,6 @@ public class GridActivity extends Activity {
                     .getExternalStorageDirectory().getAbsolutePath();
 
             String targetPath = ExternalStorageDirectoryPath + "/DJI/dji.go.v4/CACHE_IMAGE/";
-            //String targetPath = ExternalStorageDirectoryPath + "/document/primary:Pictures/";
             Log.d("Apples", targetPath);
             targetDirector = new File(targetPath);
             myTaskAdapter.clear();
@@ -60,15 +59,12 @@ public class GridActivity extends Activity {
 
             File[] toProcess = targetDirector.listFiles();
             ArrayList<File> list = new ArrayList<>();
-            for(File item : toProcess)
-            {
-                if(item.getName().endsWith(".jpg") && !blacklist.contains(item.getAbsolutePath()))
-                {
+            for(File item : toProcess) {
+                if(item.getName().endsWith(".jpg") && !blacklist.contains(item.getAbsolutePath())) {
                     Log.d("Oranges", "Added:" + item.getName());
                     list.add(item);
                 }
-                else
-                {
+                else{
                     Log.d("Oranges", "Removed" + item.getName());
                 }
             }
