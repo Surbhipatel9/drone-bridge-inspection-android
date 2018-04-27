@@ -118,6 +118,9 @@ public class ImageUpdateActivity extends AppCompatActivity {
             Photo photo = dbHandler.findHandler(fileLocation);
             dbHandler.updateHandler(photo, name.getText().toString(), description.getText().toString());
 
+            Toast.makeText(getApplicationContext(), "Information Saved!",
+                    Toast.LENGTH_SHORT).show();
+
             Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
             startActivity(i);
         }
@@ -170,37 +173,6 @@ public class ImageUpdateActivity extends AppCompatActivity {
         String bridgeName = name.getText().toString();
         String bridgeDescription = description.getText().toString();
         //String bridgeUserID = HomeActivity.enteredUserName;
-        File sdCard = Environment.getExternalStorageDirectory();
-        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-        if (!f.exists()) {
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(f, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedWriter fos = new BufferedWriter(fw);
-        String pathToWrite = fileLocation;
-        try {
-            fos.write(pathToWrite + ", " + bridgeName + ", " + bridgeDescription + ", " + "\n");
-            Log.d("done", "done");
-            fos.close();
-            fw.close();
-        } catch (IOException e) {
-            Log.d("ok", e.toString());
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
         //return;
 
         imageView.setImageResource(android.R.color.transparent);

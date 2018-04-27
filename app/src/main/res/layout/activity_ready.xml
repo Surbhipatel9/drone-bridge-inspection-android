@@ -50,6 +50,8 @@
             android:horizontalSpacing="30dp"
             android:numColumns="3"
             android:stretchMode="columnWidth"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:verticalSpacing="10dp" />
 
         <Button
