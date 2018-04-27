@@ -273,6 +273,16 @@ public class GridActivity extends Activity {
         removeButton = (Button)findViewById(R.id.removeButton);
 
         try {
+            File sdCard = Environment.getExternalStorageDirectory();
+            File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+            if (!f.exists()) {
+                try {
+                    f.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             File sdcard = Environment.getExternalStorageDirectory();
             File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
 

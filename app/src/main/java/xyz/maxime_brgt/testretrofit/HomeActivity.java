@@ -29,11 +29,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        Log.d("TestDB", "Here");
         loginButton = (Button) findViewById(R.id.loginButton);
-        uploading = (TextView)findViewById(R.id.uploading);
+        uploading = (TextView) findViewById(R.id.uploading);
 
-        permissionManager = new PermissionManager() {};
+        permissionManager = new PermissionManager() {
+        };
         permissionManager.checkAndRequestPermissions(this);
 
 
@@ -43,47 +44,38 @@ public class HomeActivity extends AppCompatActivity {
         Intent goToImageIntent = new Intent(getApplicationContext(), GridActivity.class);
 
         ArrayList<String> granted = permissionManager.getStatus().get(0).granted;
-        if(granted.isEmpty())
-            toContinue = false;
 
-        if(toContinue)
-        {
-            File yourAppDir = new File(Environment.getExternalStorageDirectory()+File.separator+"wvDotDroneFolder");
+        File yourAppDir = new File(Environment.getExternalStorageDirectory() + File.separator + "wvDotDroneFolder");
 
-            if(!yourAppDir.exists() && !yourAppDir.isDirectory())
-            {
-                // create empty directory
-                if (yourAppDir.mkdirs()) {
-                    Log.i("CreateDir","App dir created");
-                }
-                else {
-                    Log.w("CreateDir","Unable to create app dir!");
-                }
+        if (!yourAppDir.exists() && !yourAppDir.isDirectory()) {
+            // create empty directory
+            if (yourAppDir.mkdirs()) {
+                Log.i("CreateDir", "App dir created");
+            } else {
+                Log.w("CreateDir", "Unable to create app dir!");
             }
-
-
-            yourAppDir = new File(Environment.getExternalStorageDirectory() + File.separator + "DJI/dji.go.v4/CACHE_IMAGE/");
-            if(!yourAppDir.exists() && !yourAppDir.isDirectory()){
-                // create empty directory
-                if (yourAppDir.mkdirs()) {
-                    Log.i("CreateDir","App dir created");
-                }
-                else {
-                    Log.w("CreateDir","Unable to create app dir!");
-                }
-            }
-            startActivity(goToImageIntent);
         }
+
+
+        yourAppDir = new File(Environment.getExternalStorageDirectory() + File.separator + "DJI/dji.go.v4/CACHE_IMAGE/");
+        if (!yourAppDir.exists() && !yourAppDir.isDirectory()) {
+            // create empty directory
+            if (yourAppDir.mkdirs()) {
+                Log.i("CreateDir", "App dir created");
+            } else {
+                Log.w("CreateDir", "Unable to create app dir!");
+            }
+        }
+        startActivity(goToImageIntent);
+
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantedResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantedResults) {
         permissionManager.checkResult(requestCode, permissions, grantedResults);
 
         ArrayList<String> granted = permissionManager.getStatus().get(0).granted;
-        for(String line:granted)
-        {
+        for (String line : granted) {
             Log.d("granted", line);
         }
     }
