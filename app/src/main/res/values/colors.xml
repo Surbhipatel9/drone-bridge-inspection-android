@@ -6,7 +6,7 @@
 
     <color name="backgroundColor">#08B2F7</color>
     <color name="recentBackground">#FFFDD0</color>
-    <color name="queueBackground">#FFFFF0</color>
+    <color name="queueBackground">#fffff0</color>
 
     <color name="mainColor">#1300fa</color>
 
