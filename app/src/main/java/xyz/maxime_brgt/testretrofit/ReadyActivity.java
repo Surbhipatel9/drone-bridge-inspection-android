@@ -71,32 +71,7 @@ public class ReadyActivity extends Activity {
             ArrayList<String> filePaths = new ArrayList<String>();
             final ArrayList<String> bridgeNames = new ArrayList<String>();
             final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
-            //final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
-            //final ArrayList<File> ourFiles = new ArrayList<File>();
 
-//            File ourFile = null;
-//            try {
-//                File sdcard = Environment.getExternalStorageDirectory();
-//                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
-//
-//                BufferedReader br = new BufferedReader(new FileReader(file));
-//                String line;
-//                while ((line = br.readLine()) != null) {
-//                    lineArray = line.split(",");
-//                    filePaths.add(lineArray[0]);
-//                    //bridgeIDs.add(lineArray[1]);
-//                    bridgeNames.add(lineArray[1]);
-//                    bridgeDescrtiptions.add(lineArray[2]);
-//                    //bridgeUserIDs.add(lineArray[4]);
-//                    //Log.d("lineTesting", lineArray[4]);
-//                    //ourFile = new File(lineArray[0]);
-//                    //ourFiles.add(ourFile);
-//                    Log.d("testing123", "please work..." + filePaths.get(0));
-//                }
-//                br.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
 
             ArrayList<File> ourFiles = new ArrayList<>();
             ArrayList<String> ourFileLocations = dbHandler.loadPathsHandler();
