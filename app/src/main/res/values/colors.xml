@@ -11,4 +11,8 @@
     <color name="mainColor">#1300fa</color>
 
     <color name ="yepp">#000000</color>
+    <color name="redButton">#EA4335</color>
+    <color name="blueButton">#4285F4</color>
+    <color name="greenButton">#34A853</color>
+    <color name="white">#FFFFFF</color>
 </resources>
