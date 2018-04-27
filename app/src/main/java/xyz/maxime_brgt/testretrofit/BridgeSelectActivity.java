@@ -44,6 +44,8 @@ public class BridgeSelectActivity extends AppCompatActivity {
 
     String formattedDate = "";
 
+    MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +120,8 @@ public class BridgeSelectActivity extends AppCompatActivity {
 //                        .show();
 //                return;
 //            }
-            HomeActivity.uploadBoolean = true;
 
+            
             for (String item : filePaths) {
                 final NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());
                 //notificationHelper.createUploadingNotification();
@@ -165,36 +167,9 @@ public class BridgeSelectActivity extends AppCompatActivity {
                 });
             }
 
-            File sdCard = Environment.getExternalStorageDirectory();
-            File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-            if (!f.exists()) {
-                try {
-                    f.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            FileWriter fw = null;
-            try {
-                fw = new FileWriter(f, false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            BufferedWriter fos = new BufferedWriter(fw);
-            try {
-                fos.write("");
-                Log.d("done", "done");
-                fos.close();
-                fw.close();
-            } catch (IOException e) {
-                Log.d("ok", e.toString());
-            } finally {
-                try {
-                    fw.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
+            dbHandler.clearHandler();
+
+
 
 
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);

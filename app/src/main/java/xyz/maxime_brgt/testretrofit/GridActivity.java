@@ -272,31 +272,9 @@ public class GridActivity extends Activity {
         setContentView(R.layout.activity_grid);
         removeButton = (Button)findViewById(R.id.removeButton);
 
-        try {
-            File sdCard = Environment.getExternalStorageDirectory();
-            File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-            if (!f.exists()) {
-                try {
-                    f.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        blacklist = dbHandler.loadPathsHandler();
 
-            File sdcard = Environment.getExternalStorageDirectory();
-            File file = new File(sdcard,"wvDotDroneFolder/filePaths.txt");
-
-            String[] lineArray;
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = br.readLine()) != null) {
-                lineArray = line.split(",");
-                blacklist.add(lineArray[0]);
-            }
-            br.close() ;
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
 
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         myImageAdapter = new ImageAdapter(getApplicationContext());
