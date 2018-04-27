@@ -14,7 +14,7 @@
 
     <string name="login_button">Login</string>
     <string name="loginButtonHint">Username</string>
-    <string name="loginTitle">WV DoT Drone-Bridge Application</string>
+    <string name="loginTitle">W.V. D.o.T. Drone-Bridge Application</string>
     <string name="backButton">Back</string>
     <string name="nextButton">Next</string>
     <string name="title_activity_navigate">NavigateActivity</string>

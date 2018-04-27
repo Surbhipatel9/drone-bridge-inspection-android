@@ -64,7 +64,6 @@ public class BridgeSelectActivity extends AppCompatActivity {
 
     public void nextButtonMethod(View v) throws SQLException {
 
-        //File ourFile = null;
         int count = 0;
         try {
             File sdcard = Environment.getExternalStorageDirectory();
@@ -97,34 +96,6 @@ public class BridgeSelectActivity extends AppCompatActivity {
             for(String path : filePaths)
                 files.add(new File(path));
 
-//            File ourFile = null;
-//            try {
-//                File sdcard = Environment.getExternalStorageDirectory();
-//                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
-//
-//                BufferedReader br = new BufferedReader(new FileReader(file));
-//                String line;
-//                while ((line = br.readLine()) != null) {
-//                    lineArray = line.split(",");
-//                    filePaths.add(lineArray[0]);
-//                    //bridgeIDs.add(lineArray[1]);
-//                    bridgeNames.add(lineArray[1]);
-//                    bridgeDescrtiptions.add(lineArray[2]);
-//                    ourFile = new File(lineArray[0]);
-//                    files.add(ourFile);
-//                }
-//                br.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-//            if (chosenFile == null) {
-//                Toast.makeText(MainActivity.this, "Choose a file before upload.", Toast.LENGTH_SHORT)
-//                        .show();
-//                return;
-//            }
-
-            
             for (String item : filePaths) {
                 final NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());
                 //notificationHelper.createUploadingNotification();
