@@ -49,7 +49,8 @@ public class ImageUpdateActivity extends AppCompatActivity {
     private TextView uploadAsTextView;
     private Button uploadButton;
     private Button removeButton;
-
+    private Button saveButton;
+    MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
     public static int lineNumber = 0;
     public static int position;
     public static String fileLocation = "";
@@ -69,13 +70,16 @@ public class ImageUpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_update);
+
         imageView = (ImageView) findViewById(R.id.imageView);
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.description);
         uploadAsTextView = (TextView) findViewById(R.id.uploadAsTextView);
         //uploadButton = (Button) findViewById(R.id.uploadButton);
         removeButton = (Button)findViewById(R.id.removeButton);
-        removeButton.setOnClickListener(removeListenter);
+        removeButton.setOnClickListener(removeListener);
+        saveButton = (Button)findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(saveListener);
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formattedDate = df.format(c);
@@ -95,45 +99,24 @@ public class ImageUpdateActivity extends AppCompatActivity {
 
     }
 
-    private View.OnClickListener removeListenter = new View.OnClickListener() {
+    private View.OnClickListener removeListener = new View.OnClickListener() {
         public void onClick(View v) {
-//            for(String line : ReadyActivity.ourLines){
-//                Log.d("ourLines", line);
-//            }
-            ReadyActivity.ourLines.remove(lineNumber - 1);
-            File sdCard = Environment.getExternalStorageDirectory();
-            File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-            if (!f.exists()) {
-                try {
-                    f.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            FileWriter fw = null;
-            try {
-                fw = new FileWriter(f, false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            BufferedWriter fos = new BufferedWriter(fw);
-            for(String x : ReadyActivity.ourLines) {
-                try {
-                    fos.write(x);
-                    Log.d("done", "done");
-                    fos.close();
-                    fw.close();
-                } catch (IOException e) {
-                    Log.d("ok", e.toString());
-                } finally {
-                    try {
-                        fw.close();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
 
+            //dbHandler.updateHandler(fileLocation, name.getText().toString(), description.getText().toString());
+            Log.d("696969", fileLocation);
+            dbHandler.deleteHandler(fileLocation);
+
+            Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
+            startActivity(i);
+        }
+    };
+
+    private View.OnClickListener saveListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+            Log.d("696969", fileLocation);
+            Photo photo = dbHandler.findHandler(fileLocation);
+            dbHandler.updateHandler(photo, name.getText().toString(), description.getText().toString());
 
             Intent i = new Intent(getApplicationContext(), ReadyActivity.class);
             startActivity(i);

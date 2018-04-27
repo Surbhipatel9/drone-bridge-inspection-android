@@ -313,6 +313,7 @@ public class ReadyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ready);
 
+
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         myImageAdapter = new ImageAdapter(getApplicationContext());
         gridview.setAdapter(myImageAdapter);
@@ -361,50 +362,20 @@ public class ReadyActivity extends Activity {
                                 long id) {
             ImageUpdateActivity.fileLocation = myImageAdapter.itemList.get(position);
             //Log.d("testing1234", myImageAdapter.itemList.get(position));
-            ImageUpdateActivity.position = position;
+//            ImageUpdateActivity.position = position;
 
-            String[] lineArray;
-            ArrayList<String> filePaths = new ArrayList<String>();
-            final ArrayList<String> bridgeNames = new ArrayList<String>();
-            final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
-            ImageUpdateActivity.displayTitle = "";
-            ImageUpdateActivity.displayDescription = "";
+//            String[] lineArray;
+//            ArrayList<String> filePaths = new ArrayList<String>();
+//            final ArrayList<String> bridgeNames = new ArrayList<String>();
+//            final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
 
-            File ourFile = null;
-            int lineNumber = 1;
-            try {
-                File sdcard = Environment.getExternalStorageDirectory();
-                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+            Photo selectedPhoto = dbHandler.findHandler(ImageUpdateActivity.fileLocation);
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lineArray = line.split(",");
-                    filePaths.add(lineArray[0]);
-                    bridgeNames.add(lineArray[1]);
-                    bridgeDescrtiptions.add(lineArray[2]);
-                    //bridgeUserIDs.add(lineArray[
-                    if (ImageUpdateActivity.fileLocation.equals(lineArray[0])) {
-                        ImageUpdateActivity.displayTitle = lineArray[1];
-                        ImageUpdateActivity.displayDescription = lineArray[2];
-                        ImageUpdateActivity.lineNumber = lineNumber;
-                        ourLines.add(line);
-                    }
-                    ourLines.add(line);
-                    lineNumber++;
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ImageUpdateActivity.displayTitle = selectedPhoto.getName();
+            ImageUpdateActivity.displayDescription = selectedPhoto.getDescription();
 
             Intent i = new Intent(getApplicationContext(), ImageUpdateActivity.class);
             startActivity(i);
-
-
-//            ImageUpdateActivity.displayTitle = "";
-//            ImageUpdateActivity.displayDescription = "";
-
 
         }
     };
@@ -417,18 +388,11 @@ public class ReadyActivity extends Activity {
 
     public void finishButtonMethod(View v) {
         int count = 0;
-        try {
-            File sdcard = Environment.getExternalStorageDirectory();
-            File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = br.readLine()) != null) {
-                count++;
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        MyDBHandler myDBHandlder = new MyDBHandler(this, null, null, 1);
+        ArrayList<String> filePaths = myDBHandlder.loadPathsHandler();
+
+        count = filePaths.size();
 
         if (count != 0) {
             Intent back = new Intent(getApplicationContext(), BridgeSelectActivity.class);

@@ -65,6 +65,34 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return result;
     }
 
+    public ArrayList<String> loadNamesHandler() {
+        ArrayList<String> result = new ArrayList<>();
+        String query = "Select * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            String result_2 = cursor.getString(2);
+            result.add(result_2);
+        }
+        cursor.close();
+        db.close();
+        return result;
+    }
+
+    public ArrayList<String> loadDescriptionsHandler() {
+        ArrayList<String> result = new ArrayList<>();
+        String query = "Select * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            String result_3 = cursor.getString(3);
+            result.add(result_3);
+        }
+        cursor.close();
+        db.close();
+        return result;
+    }
+
     public void addHandler(Photo photo) {
         ContentValues values = new ContentValues();
         //values.put(COLUMN_ID, photo.getID());
@@ -95,18 +123,20 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
     public boolean deleteHandler(String filepath) {
         boolean result = false;
-        String query = "Select * FROM " + TABLE_NAME + " WHERE " + COLUMN_FILEPATH + " = '" + filepath + "'";
+//        String query = "Select * FROM " + TABLE_NAME + " WHERE " + COLUMN_FILEPATH + " = '" + filepath + "'";
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        Photo photo = new Photo();
-        if (cursor.moveToFirst()) {
-            photo.setFilepath(cursor.getString(1));
-            db.delete(TABLE_NAME, COLUMN_FILEPATH + "=?",
-                    new String[] {
-            });
-            cursor.close();
-            result = true;
-        }
+//        Cursor cursor = db.rawQuery(query, null);
+//        Photo photo = new Photo();
+//        if (cursor.moveToFirst()) {
+//            photo.setFilepath(cursor.getString(1));
+//            db.delete(TABLE_NAME, COLUMN_FILEPATH + "=?",
+//                    new String[] {
+//            });
+//            cursor.close();
+//            result = true;
+//        }
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_FILEPATH + " = '" + filepath + "'");
+        result = true;
         db.close();
         return result;
     }
@@ -119,11 +149,11 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return true;
     }
 
-    public boolean updateHandler(String filepath, String name, String description) {
+    public boolean updateHandler(Photo photo, String name, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues args = new ContentValues();
-        args.put(COLUMN_NAME, name);
-        args.put(COLUMN_DESCRIPTION, description);
-        return db.update(TABLE_NAME, args, COLUMN_FILEPATH + " = " + filepath, null) > 0;
+        db.execSQL("UPDATE " + TABLE_NAME + " SET " + COLUMN_ID + " = '" + photo.getID() + "', " +
+                COLUMN_FILEPATH + " = '" + photo.getFilepath() + "', " + COLUMN_NAME + " = '" + name + "', " + COLUMN_DESCRIPTION  + " = '" + description + "'");
+        db.close();
+        return true;
     }
 }

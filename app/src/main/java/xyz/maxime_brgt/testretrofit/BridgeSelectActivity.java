@@ -89,31 +89,34 @@ public class BridgeSelectActivity extends AppCompatActivity {
         } else {
             String[] lineArray;
 
-            ArrayList<String> filePaths = new ArrayList<String>();
-            final ArrayList<String> bridgeNames = new ArrayList<String>();
-            final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
-            final ArrayList<File> files = new ArrayList<File>();
+            ArrayList<String> filePaths = dbHandler.loadPathsHandler();
+            final ArrayList<String> bridgeNames = dbHandler.loadNamesHandler();
+            final ArrayList<String> bridgeDescrtiptions = dbHandler.loadDescriptionsHandler();
+            final ArrayList<File> files = new ArrayList<>();
 
-            File ourFile = null;
-            try {
-                File sdcard = Environment.getExternalStorageDirectory();
-                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+            for(String path : filePaths)
+                files.add(new File(path));
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lineArray = line.split(",");
-                    filePaths.add(lineArray[0]);
-                    //bridgeIDs.add(lineArray[1]);
-                    bridgeNames.add(lineArray[1]);
-                    bridgeDescrtiptions.add(lineArray[2]);
-                    ourFile = new File(lineArray[0]);
-                    files.add(ourFile);
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            File ourFile = null;
+//            try {
+//                File sdcard = Environment.getExternalStorageDirectory();
+//                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+//
+//                BufferedReader br = new BufferedReader(new FileReader(file));
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    lineArray = line.split(",");
+//                    filePaths.add(lineArray[0]);
+//                    //bridgeIDs.add(lineArray[1]);
+//                    bridgeNames.add(lineArray[1]);
+//                    bridgeDescrtiptions.add(lineArray[2]);
+//                    ourFile = new File(lineArray[0]);
+//                    files.add(ourFile);
+//                }
+//                br.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
 //            if (chosenFile == null) {
 //                Toast.makeText(MainActivity.this, "Choose a file before upload.", Toast.LENGTH_SHORT)
@@ -168,9 +171,6 @@ public class BridgeSelectActivity extends AppCompatActivity {
             }
 
             dbHandler.clearHandler();
-
-
-
 
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
