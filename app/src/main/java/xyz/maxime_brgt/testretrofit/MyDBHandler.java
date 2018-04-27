@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 public class MyDBHandler extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
@@ -31,6 +33,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {}
 
+    //SELECT * FROM PHOTOS
     public String loadHandler() {
         String result = "";
         String query = "Select * FROM " + TABLE_NAME;
@@ -42,6 +45,20 @@ public class MyDBHandler extends SQLiteOpenHelper{
             String result_2 = cursor.getString(2);
             String result_3 = cursor.getString(3);
             result += String.valueOf(result_0) + " " + result_1 + " " + result_2 + " " + result_3 + System.getProperty("line.separator");
+        }
+        cursor.close();
+        db.close();
+        return result;
+    }
+
+    public ArrayList<String> loadPathsHandler() {
+        ArrayList<String> result = new ArrayList<>();
+        String query = "Select * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            String result_1 = cursor.getString(1);
+            result.add(result_1);
         }
         cursor.close();
         db.close();

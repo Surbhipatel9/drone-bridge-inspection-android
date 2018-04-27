@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,8 @@ public class ReadyActivity extends Activity {
     AsyncTaskLoadFiles myAsyncTaskLoadFiles;
 
     public static ArrayList<String> ourLines;
+
+    MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
 
     public class AsyncTaskLoadFiles extends AsyncTask<Void, String, Void> {
 
@@ -69,32 +72,37 @@ public class ReadyActivity extends Activity {
             final ArrayList<String> bridgeNames = new ArrayList<String>();
             final ArrayList<String> bridgeDescrtiptions = new ArrayList<String>();
             //final ArrayList<String> bridgeUserIDs = new ArrayList<String>();
-            final ArrayList<File> ourFiles = new ArrayList<File>();
+            //final ArrayList<File> ourFiles = new ArrayList<File>();
 
-            File ourFile = null;
-            try {
-                File sdcard = Environment.getExternalStorageDirectory();
-                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+//            File ourFile = null;
+//            try {
+//                File sdcard = Environment.getExternalStorageDirectory();
+//                File file = new File(sdcard, "wvDotDroneFolder/filePaths.txt");
+//
+//                BufferedReader br = new BufferedReader(new FileReader(file));
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    lineArray = line.split(",");
+//                    filePaths.add(lineArray[0]);
+//                    //bridgeIDs.add(lineArray[1]);
+//                    bridgeNames.add(lineArray[1]);
+//                    bridgeDescrtiptions.add(lineArray[2]);
+//                    //bridgeUserIDs.add(lineArray[4]);
+//                    //Log.d("lineTesting", lineArray[4]);
+//                    //ourFile = new File(lineArray[0]);
+//                    //ourFiles.add(ourFile);
+//                    Log.d("testing123", "please work..." + filePaths.get(0));
+//                }
+//                br.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lineArray = line.split(",");
-                    filePaths.add(lineArray[0]);
-                    //bridgeIDs.add(lineArray[1]);
-                    bridgeNames.add(lineArray[1]);
-                    bridgeDescrtiptions.add(lineArray[2]);
-                    //bridgeUserIDs.add(lineArray[4]);
-                    //Log.d("lineTesting", lineArray[4]);
-                    ourFile = new File(lineArray[0]);
-                    ourFiles.add(ourFile);
-                    Log.d("testing123", "please work..." + filePaths.get(0));
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            ArrayList<File> ourFiles = new ArrayList<>();
+            ArrayList<String> ourFileLocations = dbHandler.loadPathsHandler();
+            for(String x : ourFileLocations){
+                ourFiles.add(new File(x));
             }
-
             File[] files = ourFiles.toArray(new File[ourFiles.size()]);
             for (int i = 0; i < files.length; i++)
                 Log.d("Oranges", files[i].toString());

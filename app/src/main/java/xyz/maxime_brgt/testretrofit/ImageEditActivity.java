@@ -81,44 +81,6 @@ public class ImageEditActivity extends AppCompatActivity {
             imageView.setImageBitmap(myBitmap);
         }
 
-/*
-        File sdCard = Environment.getExternalStorageDirectory();
-        Log.d("location", sdCard.getAbsolutePath());
-        Log.e("help", String.valueOf(sdCard.exists()));
-        File f = new File(sdCard + "/test.txt");
-        if(!f.exists()){
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(f, false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedWriter fos = new BufferedWriter(fw);
-        String descriptionInsert = description.getText().toString();
-        String nameInsert = name.getText().toString();
-        try{
-            fos.write("");
-            Log.d("done", "done");
-            fos.close();
-            fw.close();
-        } catch(FileNotFoundException e){
-            Log.d("ok", e.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        */
 
         //uploadAsTextView.setText("USERID:" + uploadUserName + " BRIDGEID:" + BridgeSelectActivity.bridgeID);
 
@@ -176,37 +138,43 @@ public class ImageEditActivity extends AppCompatActivity {
         String bridgeName = name.getText().toString();
         String bridgeDescription = description.getText().toString();
         //String bridgeUserID = HomeActivity.enteredUserName;
-        File sdCard = Environment.getExternalStorageDirectory();
-        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
-        if (!f.exists()) {
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(f, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedWriter fos = new BufferedWriter(fw);
-        String pathToWrite = fileLocation;
-        try {
-            fos.write(pathToWrite + ", " + bridgeName + ", " + bridgeDescription + "\n");
-            Log.d("done", "done");
-            fos.close();
-            fw.close();
-        } catch (IOException e) {
-            Log.d("ok", e.toString());
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
+//        File sdCard = Environment.getExternalStorageDirectory();
+//        File f = new File(sdCard + "/" + "wvDotDroneFolder" + "/" + "filePaths" + ".txt");
+//        if (!f.exists()) {
+//            try {
+//                f.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        FileWriter fw = null;
+//        try {
+//            fw = new FileWriter(f, true);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        BufferedWriter fos = new BufferedWriter(fw);
+//        String pathToWrite = fileLocation;
+//        try {
+//            fos.write(pathToWrite + ", " + bridgeName + ", " + bridgeDescription + "\n");
+//            Log.d("done", "done");
+//            fos.close();
+//            fw.close();
+//        } catch (IOException e) {
+//            Log.d("ok", e.toString());
+//        } finally {
+//            try {
+//                fw.close();
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Photo insertPhoto = new Photo(fileLocation, bridgeName, bridgeDescription);
+        dbHandler.addHandler(insertPhoto);
+
+        Log.d("test69", dbHandler.loadHandler());
         //return;
 
         imageView.setImageResource(android.R.color.transparent);
