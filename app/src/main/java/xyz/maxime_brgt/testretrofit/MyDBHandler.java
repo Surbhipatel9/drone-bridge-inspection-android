@@ -152,7 +152,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE " + TABLE_NAME + " SET " + COLUMN_ID + " = '" + photo.getID() + "', " +
                 COLUMN_FILEPATH + " = '" + photo.getFilepath() + "', " + COLUMN_NAME + " = '" + name + "', "
-                + COLUMN_DESCRIPTION  + " = '" + description + "'");
+                + COLUMN_DESCRIPTION  + " = '" + description + "'" + " WHERE " + COLUMN_ID + "= '" + photo.getID() + "'" + ";");
         db.close();
         return true;
     }
